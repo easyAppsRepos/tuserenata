@@ -1,0 +1,239 @@
+<ion-view view-title="Perfil">
+    <ion-content ng-class="{expanded:$scope.isExpanded}" style='background-color: #fafafa;' overflow-scroll="true">
+      <!--   <div class="hero slide-up" style="background-image: url('img/music2.jpeg');"> -->
+
+      <div class="hero slide-up" style="    background-position: 4px -41px; background-image: url('img/guitar.jpg');"> 
+
+            <div class="content">
+                <div class="avatar" style="background-image: url('img/solista.jpg');"></div>
+                
+             <i class="icon ion-ios-telephone" style="color:#34AF23;font-size: 32px;position: absolute;top: -30px;right: 0px;margin-right: 25px;"></i>
+
+
+                <h3><a class="light">Hernan Jimenez M.</a></h3>
+               <div>                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i></div>
+            </div>
+        </div>
+        <div class="tabs tabs-dark tabs-icon-top static">
+
+            <a   ng-class="{active: tipoTab == 'info'}" class="tab-item active" ng-click="tipoTab = 'info'">
+                <i class="icon ion-ios-information"></i> Contactar
+            </a>
+
+
+            <a  ng-class="{active: tipoTab == 'video'}"  class="tab-item" ng-click="tipoTab = 'video'">
+                <i class="icon ion-social-youtube"></i> Multimedia
+            </a>
+
+            <a   ng-class="{active: tipoTab == 'fotos'}" class="tab-item" ng-click="tipoTab = 'fotos'">
+                <i class="icon ion-images"></i> Comentarios
+            </a>
+
+
+
+
+        </div>
+
+<div  ng-if="tipoTab == 'info'">
+<div style="text-align: center; margin-top:25px">
+          <div style="    width: 40%;display: inline-block;"><img style='height: 40px;
+    vertical-align: middle;' src="img/mus.png">  Solista</div>
+        <div style="    width: 40%;display: inline-block;"><img style='height: 40px;
+    vertical-align: middle;'  src="img/precio.png">  170.00</div>
+</div>
+
+        <h4 class="content padding double-padding-x">Conozcanos</h4>
+        <div style='    width: 90%;
+    margin-left: 5%;' class="list animate-fade-slide-in-right">
+
+
+
+
+<p>
+    
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. 
+
+</p>
+
+    <div style=" ">
+    
+    <i style="color:#3b5998; font-size: 30px;" class='icon ion-social-facebook' > </i>
+
+       <i style="color: #00aced; font-size: 30px;margin-left: 30px;" class='icon ion-social-twitter' > </i>
+
+</div>
+
+
+        </div>
+
+</div>
+
+<div  ng-if="tipoTab == 'video'">
+
+<div style="margin-left:5%; margin-right:5%; border-bottom:2px solid #777;margin-bottom: 20px;"> <h4>Galeria</h4></div>
+
+<ion-slide-box style='margin-left: 5%; width: 90%; height: 300px;' show-pager="true" does-continue="true" on-slide-changed="slideHasChanged($index)">
+    <ion-slide>
+        <img style='height: 100%;width: 100%;' src="img/mariachi.jpg" />
+    </ion-slide>
+    <ion-slide>
+        <img style='height: 100%;width: 100%;' src="img/solista.jpg" />
+    </ion-slide>
+    <ion-slide>
+        <img style='height: 100%;width: 100%;'  src="img/music4.jpg" />
+    </ion-slide>
+</ion-slide-box>
+
+
+<div style="margin-top:30px;margin-left:5%; margin-right:5%; border-bottom:2px solid #777;margin-bottom: 20px;"> <h4>Videos</h4></div>
+
+<div style="width:90%; margin-left:5%; margin-bottom:20px">
+
+<iframe style="margin-top:20px" width="100%" height="275" src="http://www.youtube.com/embed/O-HsW142T5g" frameborder="0" allowfullscreen></iframe>
+
+
+<iframe  style="margin-top:20px" width="100%" height="275" src="http://www.youtube.com/embed/O-HsW142T5g" frameborder="0" allowfullscreen></iframe>
+
+
+
+</div>
+
+
+</div>
+
+<div  ng-if="tipoTab == 'fotos'">
+    
+<div style="margin-top: 20px; margin-left:5%; margin-right:5%; border-bottom:2px solid #777;margin-bottom: 20px;"> <h4>Comentarios</h4></div>
+
+    <div class="list card comentario" style="    margin-top: 25px;">
+
+      <div class="item item-avatar" style="   min-height: 70px !important;
+    height: 70px;
+    border-bottom: 1px solid lightgray;">
+        <img src="img/userBak.png">
+        <h2>Pedro Perez</h2>
+        <div >                            
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                    </div>
+                    <p style="
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 15px;
+    margin-right: 11px;
+">23/02/2016</p>
+      </div>
+
+      <div class="item item-body" style="margin-bottom:17px;padding-top: 0px !important;padding-bottom: 0px !important;">
+        
+        <p>Muy buen grupo, muy amables y excelente calidad. Lo volveria a contratar sin dudar</p>
+
+      </div>
+
+    </div>
+
+
+
+        <div class="list card comentario" style="    margin-top: 25px;">
+
+      <div class="item item-avatar" style="    min-height: 70px !important;
+    height: 70px;
+    border-bottom: 1px solid lightgray;">
+        <img src="img/userBak.png">
+        <h2>Mario Mcgregor</h2>
+        <div >                            
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='    font-size: 24px;color: lightgrey;padding-left: 1px !important;opacity: 0.6;' class="icon ion-android-star"></i>
+                            <i style='    font-size: 24px;color: lightgrey;padding-left: 1px !important;opacity: 0.6;' class="icon ion-android-star"></i>
+                            <i style='    font-size: 24px;color: lightgrey;padding-left: 1px !important;opacity: 0.6;' class="icon ion-android-star"></i>
+                            <i style='    font-size: 24px;color: lightgrey;padding-left: 1px !important;opacity: 0.6;' class="icon ion-android-star"></i>
+                    </div>
+                    <p style="position: absolute;right: 0;top: 0; margin-top: 15px;margin-right: 11px;
+">23/02/2016</p>
+      </div>
+
+      <div class="item item-body" style="margin-bottom:17px;padding-top: 0px !important;padding-bottom: 0px !important;">
+        
+        <p>Han llegado tarde, muy mal sonido... una pesima actuacion. Nunca los contrataria nuevamente</p>
+
+      </div>
+
+    </div>
+
+
+        <div class="list card comentario" style="    margin-top: 25px;">
+
+      <div class="item item-avatar" style="    min-height: 70px !important;
+    height: 70px;
+    border-bottom: 1px solid lightgray;">
+        <img src="img/userBak.png">
+        <h2>Pedro Perez</h2>
+        <div >                            
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                            <i style='font-size: 24px;color: #dcbb0c; padding-left: 1px !important;' class="icon ion-android-star"></i>
+                    </div>
+                    <p style="
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 15px;
+    margin-right: 11px;
+">23/02/2016</p>
+      </div>
+
+      <div class="item item-body" style="margin-bottom:17px;padding-top: 0px !important;padding-bottom: 0px !important;">
+        
+        <p>Muy buen grupo, muy amables y excelente calidad. Lo volveria a contratar sin dudar</p>
+
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+  
+
+
+    </ion-content>
+
+<ion-footer-bar class="bar button-bar-footer" style="height: auto;">
+     <div class="button-bar" style="position: absolute;bottom: 0;" >
+
+
+       <a style="min-width: 50%;border-radius: 0px;" class="button button-dark icon-left ion-chatboxes"><strong>Chat</strong></a>
+
+      
+       <div ng-click="apuntarse()" style="min-width: 50%;border-radius: 0px;"  class="disable button button-balanced icon-left ion-social-usd" ng-show='!anotado' ><strong>Contratar</strong>
+       </div>
+
+
+
+
+
+    </div>
+  </ion-footer-bar>
+
+
+
+</ion-view>
