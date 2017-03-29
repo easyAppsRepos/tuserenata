@@ -1464,7 +1464,7 @@ $scope.agregarEvento  = function(){
 
 })
 
-.controller('ProfileArtistaCtrl', function($scope, $stateParams, $sce, $ionicModal, $timeout, $ionicPopup, $ionicLoading, api, serverConfig, ionicMaterialMotion, $ionicSideMenuDelegate, ionicMaterialInk) {
+.controller('ProfileArtistaCtrl', function($scope, $state, $ionicNavBarDelegate, $stateParams, $sce, $ionicModal, $timeout, $ionicPopup, $ionicLoading, api, serverConfig, ionicMaterialMotion, $ionicSideMenuDelegate, ionicMaterialInk) {
 
      $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -1485,8 +1485,105 @@ $ionicSideMenuDelegate.canDragContent(false);
         });
     }, 700);
 
+
+    $scope.$on('$ionicView.enter', function(e) {
+
+   
+    $ionicNavBarDelegate.showBar(true);
+      
+});
+
+
+
+
+
 $scope.tipoTab='info';
 $scope.edit={};
+
+
+
+  function mensajeAlerta(mensaje){
+
+        
+   var customTemplate =
+        '<div style="text-align:center;font-family: Ubuntu;"><img style="margin-top:10px" src="img/excla.png"> <p style="    font-size: 18px;color:#ffc900; margin-top:25px">'+mensaje+'</p> </div>';
+
+      $ionicPopup.show({
+        template: customTemplate,
+        title: '',
+        subTitle: '',
+        buttons: [{
+          text: 'Cerrar',
+          type: 'button-blueCustom',
+          onTap: function(e) {
+
+           // if(borrar){ $scope.user.pin='';}
+           
+          }
+        }]
+      });
+
+}
+
+
+
+$scope.cambiarFoto = function(fotoNum){
+
+getImage();
+
+function getFotoOrden(){
+
+  var ret = '';
+  if(fotoNum == 1){ ret = 'artista1_'}
+  if(fotoNum == 2){ ret = 'artista2_'}
+  if(fotoNum == 3){ ret = 'artista3_'}
+
+
+  return ret;
+}
+
+
+function getImage() {
+ navigator.camera.getPicture(uploadPhoto, function(message) {
+ alert('get picture failed');
+ }, {
+ quality: 100,
+ destinationType: navigator.camera.DestinationType.FILE_URI,
+ sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+ });
+}
+
+//artista1_{{idArtista}}.jpg
+
+function uploadPhoto(imageURI) {
+  $ionicLoading.show();
+ var options = new FileUploadOptions();
+ options.fileKey = "file";
+ options.fileName = getFotoOrden()+$scope.idArtista;
+ options.mimeType = "image/jpeg";
+ console.log(options.fileName);
+ var params = new Object();
+ params.value1 = "test";
+ params.value2 = "param";
+ options.params = params;
+ options.chunkedMode = false;
+
+var ft = new FileTransfer();
+ ft.upload(imageURI, serverConfig.url+"/upload.php", function(result){
+ console.log(JSON.stringify(result));
+  $ionicLoading.hide();
+  mensajeAlerta('Foto cambiada correctamente');
+  $state.reload();
+
+ }, function(error){
+ console.log(JSON.stringify(error));
+ $ionicLoading.hide();
+  mensajeAlerta('error al subir foto');
+ }, options);
+ }
+ 
+
+ }
 
  ionicMaterialInk.displayEffect();
 
@@ -1524,6 +1621,7 @@ $scope.edit={};
       }
       else{
       mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      $state.go('app.inicio');
       }
       });
 
@@ -1550,6 +1648,31 @@ $scope.edit={};
 
  getInfoPerfil();
 
+
+ $scope.actualizarPerfil = function(){
+
+  $scope.edit.id = $scope.idArtista;
+  console.log($scope.edit);
+ $ionicLoading.show();
+    
+      api.actualizarPerfil($scope.edit).then(function(data) {
+      //$ionicLoading.hide();
+       $ionicLoading.hide();
+
+      if(!data.error){
+
+       console.log(data);
+       $scope.closeModal();
+       $state.reload();
+      }
+      else{
+      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      //$state.go('app.inicio');
+      }
+      });
+
+
+ }
 
     $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
  
