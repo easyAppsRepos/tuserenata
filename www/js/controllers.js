@@ -229,9 +229,13 @@ $scope.pushK=function(userID){
         api.loginUser($scope.user.nombre, $scope.user.pass).then(function(data) {
 
             $ionicLoading.hide();
+
             if(data.loginExito){
+
+              $scope.pushK(data.idUsuario);
               console.log(data);
               window.localStorage.setItem( 'userInfoTS', JSON.stringify(data));
+
 
               $state.go('app.inicio');
             }
