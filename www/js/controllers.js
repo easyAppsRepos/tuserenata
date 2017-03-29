@@ -247,7 +247,7 @@ $scope.pushK=function(userID){
     }
 
 $scope.recuperar = function(email){
-
+$ionicLoading.show();
   console.log(email);
 
           api.recuperarContra(email).then(function(data) {

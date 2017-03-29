@@ -59,7 +59,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 
  .constant("serverConfig", {
-        "url": "http://localhost:80",
+        //"url": "http://localhost:80",
+        "url": "http://tu-serenata.co",
         "imageStorageURL" : 'http://tu-serenata.co/images/'
         //"port": "80"
     })
