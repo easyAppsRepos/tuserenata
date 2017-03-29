@@ -1,0 +1,83 @@
+<ion-side-menus enable-menu-with-back-views="true">
+    <ion-side-menu-content>
+
+    <style type="text/css">
+        .menu .avatar {
+    height: 141px;
+    width: 91%;
+}
+        
+    </style>
+        <ion-nav-bar class="bar-energized" align-title="left">
+        
+
+
+  <ion-nav-back-button class="button-clear">
+    <i class="ion-ios-arrow-back"></i>
+  </ion-nav-back-button>
+
+
+
+            <ion-nav-buttons side="right">
+                <button class="button button-icon button-clear ion-android-more-vertical" menu-toggle="right">
+                </button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <ion-nav-view name="fabContent"></ion-nav-view>
+        <ion-nav-view name="menuContent" ng-class="{expanded: isExpanded}" ></ion-nav-view>
+    </ion-side-menu-content>
+    <ion-side-menu side="right">
+    
+            <img style='width: 100%;
+    background-color: #ffc900;' src='img/logoF.png'>
+                
+    
+        <ion-content style='background-color: #444;' class="stable-bg has-expanded-header">
+            <ion-list style='color:#fff !important'>
+
+                <ion-item style='color:#fff !important' nav-clear menu-close ui-sref="app.inicio">
+                    Menu Principal
+                </ion-item>
+
+
+                <ion-item style='color:#fff !important' nav-clear menu-close ui-sref="app.notificaciones">
+                    Notificaciones
+                </ion-item>
+
+
+                <ion-item style='color:#fff !important' nav-clear menu-close >
+                   Recarga tu cuenta
+                </ion-item>
+
+
+                <ion-item style='color:#fff !important' nav-clear menu-close ui-sref="app.activity">
+                    Contactenos
+                </ion-item>
+
+
+
+
+
+
+                <ion-item style='color:#fff !important' nav-clear menu-close ui-sref="app.login">
+                    Cerrar Sesion
+                </ion-item>
+
+                 <ion-item style='color:#fff !important' >
+                  <b>Opciones de Artista</b>
+                </ion-item>
+
+
+                <ion-item style='color:#fff !important' nav-clear menu-close ui-sref="app.profile">
+                  Perfil
+                </ion-item>
+                <ion-item style='color:#fff !important' nav-clear menu-close ui-sref="app.friends">
+                    Eventos
+                </ion-item>
+                <ion-item style='color:#fff !important' nav-clear menu-close >
+                  La Playa
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-side-menu>
+</ion-side-menus>

@@ -1,0 +1,199 @@
+
+      <script id="formularioArtista.html" type="text/ng-template">
+      <ion-modal-view class="ion-nifty-modal">
+        <div class="ion-modal-content-custom">
+          <ion-content class="padding">
+            <button style='       font-size: 30px;
+    color: #ffc900;
+    position: absolute;
+    top: -21px;
+    left: -17px;' class="icon ion-close-round" ng-click="closeModal()"></button>
+
+ <div  style="  text-align: center;  padding-top: 16px;">
+  
+ <div style="color:#fafafa;margin-left:16px;  border-bottom:2px solid #fafafa"> <h4 style="color:#fafafa;">Registro de Artistas</h4></div>
+<div class="list">
+  <label class="item item-input item-stacked-label">
+    <span style='color: #fafafa !important;' class="input-label">Nombre de Grupo/Artista</span>
+    <input ng-model='registroArtista.nombre' style='    margin-top: 5px;' type="text" placeholder="">
+  </label>
+
+
+  <label style='    margin-top: 20px;
+    margin-bottom: 5px;' class="item item-input item-stacked-label item-select">
+    <div style='color: #fafafa !important; width: 90% !important' class="input-label">
+      Tipo de documento de identidad
+    </div>
+    <select style="    position: relative;
+    width: 65%;
+    display: block;" ng-model='registroArtista.tipoDocumento' >
+      <option value='1' selected>Tarjeta Identidad</option>
+      <option value='2' >Cedula Ciudadana</option>
+      <option value='3'>Doc Extranjero</option>
+    </select>
+  </label>
+
+
+    <label class="item item-input item-stacked-label">
+    <span style='color: #fafafa !important;' class="input-label">Numero de identidad</span>
+    <input ng-model='registroArtista.numDocumento' style='    margin-top: 5px;' type="text" placeholder="">
+  </label>
+
+
+    <label class="item item-input item-stacked-label">
+    <span style='color: #fafafa !important;' class="input-label">Telefono de Contacto</span>
+    <input ng-model='registroArtista.telefono' style='    margin-top: 5px;' type="text" placeholder="">
+  </label>
+
+
+  <label class="item item-input item-stacked-label">
+    <span style='color: #fafafa !important;' class="input-label">Ciudad</span>
+    <input ng-model='registroArtista.ciudad' style='    margin-top: 5px;' type="text" placeholder="">
+  </label>
+
+    <label style='    margin-top: 20px;
+    margin-bottom: 5px;' class="item item-input item-stacked-label item-select">
+    <div style='color: #fafafa !important; width: 90% !important' class="input-label">
+    Género del Grupo/Artista
+    </div>
+    <select style="    position: relative;
+    width: 65%;
+    display: block;" ng-model='registroArtista.genero' >
+      <option value='1' selected>Mariachis</option>
+      <option value='2'>Boleros</option>
+      <option value='3'>Norteñas</option>
+      <option value='4'>Tunas</option>
+      <option value='5'>Parranda Vallenato</option>
+      <option value='6'>Llanera</option>
+      <option value='7'>Bandas de Rock</option>
+      <option value='8'>Carranguera</option>
+      <option value='9'>Solistas</option>
+      <option value='10'>Orquestas Tropicales</option>
+    </select>
+  </label>
+
+
+
+
+
+
+
+</div>
+
+
+<button ng-click='registrarArtista()' style='color:#444 !important; margin-top: 20px;margin-bottom: 20px' class="button button-energized button-small">Registrar</button>
+
+
+    </div>
+          </ion-content>
+        </div>
+      </ion-modal-view>
+    </script>
+<style type="text/css">
+
+
+
+        .ion-nifty-modal {
+      width: 100%;
+      min-height: 0 !important;
+      height:100% !important;
+     
+      
+      background-color: transparent;
+      border-radius: 10px;
+      -webkit-box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5); }
+
+    .ion-nifty-modal .ion-modal-content-custom {
+      width: 100%;
+      height: 100%;
+      color: #FFF;
+      background-color: #444;
+      border-radius: 10px; }
+
+    /* Fix modal backdrop for smaller devices */
+    @media (max-width: 679px) {
+      .active .modal-backdrop-bg {
+        opacity: .5; }
+      .modal-backdrop-bg {
+        -webkit-transition: opacity 300ms ease-in-out;
+        transition: opacity 300ms ease-in-out;
+        background-color: #000;
+        opacity: 0; } }
+
+
+
+    </style>
+
+
+
+
+<ion-view view-title="Contactenos">
+
+
+
+
+
+
+
+ <ion-content style='    background: rgb(243, 243, 243);'>
+
+ <div style="    text-align: center;
+    border-bottom: solid 2px rgba(211, 211, 211, 0.27);
+    padding-bottom: 25px;">
+   
+   <img style='    width: 60%;' src="img/logoF.png">
+  <div>
+   
+    <i style="    color: #ca9f03;  font-size: 27px;" class='icon ion-ios-world'></i>
+   
+
+
+     
+    <i style="color:#3b5998; margin-left:50px; font-size: 27px;" class='icon ion-social-facebook'> </i>
+   
+
+         
+    <i style="color:#4099FF;  margin-left:50px;font-size: 27px;" class='icon ion-social-twitter'> </i>
+   
+</div>
+ </div>
+
+
+<div style="
+    text-align: center;
+    border-bottom: solid 2px rgba(211, 211, 211, 0.27);
+    padding-bottom: 25px;
+    margin-top: 25px;
+    width: 80%;
+    margin-left: 10%;
+    ">
+<p style="
+    font-size: 20px;
+    color:  #ca9f03;
+">¿Quieres un perfil de Artista?</p>
+
+<p style="
+    text-align: center;
+    font-size: 16px;
+    color: #777;
+"><Strong>¡Registrate como Artista y aumenta tus clientes y eventos! </Strong>, es tan facil como rellenar el formulario y pronto te estaremos contactando para confirmar tu perfil</p>
+
+<a class="button icon-right ion-chevron-right button-energized" ng-click='openModal()' >Solicitar Perfil</a>
+
+  
+ </div>
+
+
+
+    <div style="  text-align: center;
+font-size: 16px;
+color: #777;
+width: 80%;
+margin-left: 10%;
+margin-top: 25px;">
+        <p> <strong> Queremos saber tu opinion! </strong><br> <br>  Has experimentado algun error o sientes que algo no esta bien? No dudes en contactarnos, simplemente envia un email a <br><br> <strong> support@tu-serenata.co </strong><br><br> Muchas Gracias, esperamos poder ayudarte! </p>
+
+    </div>
+  </ion-content>
+</ion-view>

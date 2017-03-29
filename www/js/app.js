@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'onezone-datepicker', 'ionMdInput', 'ionic-datepicker', 'ionic-timepicker'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic-material', 'onezone-datepicker', 'ionMdInput', 'ionic-datepicker', 'ionic-timepicker'])
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -17,14 +17,65 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'on
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
         }
+
+
+        //PUSH FUNCIONANDO
+
+        var push = PushNotification.init({
+                "android": {
+                "senderID": "22934730845"
+                },
+                "ios": {
+                "alert": "true",
+                "badge": "true",
+                "sound": "true"
+                },
+                "windows": {}
+        });
+
+        push.on('registration', function(data) {
+
+            console.log('registradoPush');
+            localStorage.setItem('pushKeyTS', data.registrationId);
+
+        });
+
+        push.on('notification', function(data) {
+
+        //alert('Tienes una notificacion: '+data.title);
+
+         console.log(data);
+        });
+
+        push.on('error', function(e) {
+        console.log(e.message);
+
+        });
+        //push final 
+
+
     });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+
+ .constant("serverConfig", {
+        "url": "http://localhost:80",
+        "imageStorageURL" : 'http://tu-serenata.co/images/'
+        //"port": "80"
+    })
+
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider) {
 
     // Turn off caching for demo simplicity's sake
-    $ionicConfigProvider.views.maxCache(0);
 
+     $httpProvider.defaults.headers.common = {};
+  $httpProvider.defaults.headers.post = {};
+  $httpProvider.defaults.headers.put = {};
+  $httpProvider.defaults.headers.patch = {};
+
+
+    $ionicConfigProvider.views.maxCache(0);
+    $ionicConfigProvider.backButton.previousTitleText(false).text('');
     /*
     // Turn off back button text
     $ionicConfigProvider.backButton.previousTitleText(false);
@@ -37,23 +88,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'on
         controller: 'AppCtrl'
     })
 
-    .state('app.activity', {
-        url: '/activity',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/activity.html',
-                controller: 'ActivityCtrl'
-            },
-            'fabContent': {
-                template: '<button id="fab-activity" class="button button-fab button-fab-bottom-right expanded button-energized flap"><i class="icon ion-ios-search-strong"></i></button>',
-                controller: function ($timeout) {
-                    $timeout(function () {
-                        document.getElementById('fab-activity').classList.toggle('on');
-                    }, 200);
-                }
-            }
-        }
-    })
 
     .state('app.friends', {
         url: '/friends',
@@ -87,6 +121,43 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'on
         }
     })
 
+
+      .state('app.contactenos', {
+        url: '/contactenos',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/contactenos.html',
+                controller: 'contactenosCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function ($timeout) {
+
+                }
+            }
+        }
+    })
+
+
+
+            .state('app.laPlaya', {
+        url: '/laPlaya',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/laPlaya.html',
+                controller: 'laPlayaCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function ($timeout) {
+
+                }
+            }
+        }
+    })
+
+
+
             .state('app.inicio', {
         url: '/inicio',
         views: {
@@ -98,11 +169,59 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'on
                 template: '',
                 controller: function ($timeout) {
 
+
+
                 }
             }
         }
     })
 
+            .state('app.interesados', {
+        url: '/interesados',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/interesados.html',
+                controller: 'inicioCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function ($timeout) {
+
+                }
+            }
+        }
+    })
+            .state('app.serenatas', {
+        url: '/serenatas',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/serenatas.html',
+                controller: 'serenatasCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function ($timeout) {
+
+                }
+            }
+        }
+    })
+
+                        .state('app.genero', {
+        url: '/genero/:idCategoria/:genero',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/genero.html',
+                controller: 'generoCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function ($timeout) {
+
+                }
+            }
+        }
+    })
 
 
 
@@ -138,7 +257,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'on
     })
 
     .state('app.profile', {
-        url: '/profile',
+        url: '/profile/:idArtista',
         views: {
             'menuContent': {
                 templateUrl: 'templates/profile.html',
@@ -157,5 +276,28 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'on
     ;
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/login');
+    //$urlRouterProvider.otherwise('/app/login');
+
+
+        if(localStorage.getItem('userInfoTS') == null || 
+            localStorage.getItem('userInfoTS') == 'null' || 
+            localStorage.getItem('userInfoTS') == 'undefined' || 
+            localStorage.getItem('userInfoTS') == undefined){
+
+        console.log(localStorage.getItem('userInfoTS'));
+        $urlRouterProvider.otherwise('/app/login');
+
+        }
+        else{
+            console.log(localStorage.getItem('userInfoTS'));
+        $urlRouterProvider.otherwise('/app/inicio');
+        // $urlRouterProvider.otherwise("/login");
+        }
+
+
+
+
+
+
+
 });

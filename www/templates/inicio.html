@@ -1,58 +1,298 @@
 
 
+      <script id="reservaYa.html" type="text/ng-template">
+      <ion-modal-view class="ion-nifty-modal">
+        <div class="ion-modal-content-custom">
+          <ion-content class="padding">
+            <button style='       font-size: 30px;
+    color: #ffc900;
+    position: absolute;
+    top: -21px;
+    left: -17px;' class="icon ion-close-round" ng-click="closeModal()"></button>
 
-<ion-view view-title="Inicio">
+ <div  style="  text-align: center;  padding-top: 16px;">
+  
+ <div style="color:#fafafa;margin-left:16px;  border-bottom:2px solid #fafafa"> <h4 style="color:#fafafa;">¡Reserva para YA!</h4></div>
+<div class="list">
+  <label class="item item-input item-stacked-label">
+    <span style='color: #fafafa !important;' class="input-label">Nombre</span>
+    <input ng-model='reserva.nombre' style='    margin-top: 5px;' type="text" placeholder="">
+  </label>
+
+
+    <label class="item item-input item-stacked-label">
+    <span style='color: #fafafa !important;' class="input-label">Ciudad</span>
+    <input ng-model='reserva.ciudad' style='    margin-top: 5px;' type="text" placeholder="">
+  </label>
+
+    <label class="item item-input item-stacked-label">
+    <span style='color: #fafafa !important;' class="input-label">Direccion</span>
+    <textarea ng-model='reserva.direccion' rows='3'  style='  resize: none;   margin-top: 5px;' type="text" placeholder=""></textarea>
+  </label>
+
+    <label class="item item-input item-stacked-label">
+    <span style='color: #fafafa !important;' class="input-label">Telefono de Contacto</span>
+    <input ng-model='reserva.telefono' style='    margin-top: 5px;' type="text" placeholder="">
+  </label>
+
+
+  <label class="item item-input item-stacked-label">
+    <span style='color: #fafafa !important;' class="input-label">Motivo</span>
+    <input ng-model='reserva.motivo' style='    margin-top: 5px;' type="text" placeholder="">
+  </label>
+
+  <label style='    margin-top: 20px;
+    margin-bottom: 5px;' class="item item-input item-stacked-label item-select">
+    <div style='color: #fafafa !important;' class="input-label">
+      Género
+    </div>
+    <select ng-model='reserva.genero' >
+      <option selected>Mariachis</option>
+      <option >Boleros</option>
+      <option >Norteñas</option>
+      <option >Tunas</option>
+      <option >Parranda Vallenato</option>
+      <option >Llanera</option>
+      <option >Bandas de Rock</option>
+      <option >Carranguera</option>
+      <option>Solistas</option>
+      <option >Orquestas Tropicales</option>
+    </select>
+  </label>
 
 
 
 
+</div>
 
 
-
- <ion-content style='background-color: #fafafa'>
-
-
-
-
-
-
-    <div style="text-align:center; margin-top:30px">
-
-        <div ui-sref="app.activity" style="   width: 100px;
-    display: inline-block;
-    border: solid 1px #444;
-    padding-top: 10px;
-    vertical-align: middle;
-    height: 120px;
-    padding-bottom: 10px;
-    margin-right: 22px;">
-
-            <img src="img/micro.png"><br>
-            <span>Serenatas</span>
-
-        </div>
-        <div style="        width: 100px;
-    display: inline-block;
-    border: solid 1px #444;
-    padding-top: 10px;
-    height: 120px;
-    padding-bottom: 10px;
-    vertical-align: middle;">
-
-            <img src="img/reserva.png"><br>
-            <span>Reserva para YA!</span>
-
-        </div>
+<button ng-click='buscarGrupo()' style='color:#444 !important; margin-top: 20px;margin-bottom: 20px' class="button button-energized button-small">Buscar Grupo</button>
 
 
     </div>
+          </ion-content>
+        </div>
+      </ion-modal-view>
+    </script>
 
-    <div>
 
-      <img style='    margin-top: 30px; width: 100%;
-   ' src="img/logoF.png">
 
-    </div>
+          <script id="buscando.html" type="text/ng-template">
+      <ion-modal-view class="ion-nifty-modal2">
+        <div class="ion-modal-content-custom2">
+          <ion-content class="padding">
+           
+           <button ng-click='closeModal()' style='color:#444 !important; margin-top: 20px;margin-bottom: 20px' class="button button-energized button-small">Cancelar Busqueda</button>
 
-  </ion-content>
-</ion-view>
+
+          </ion-content>
+        </div>
+      </ion-modal-view>
+    </script>
+
+
+
+    <style type="text/css">
+
+
+           .ion-nifty-modal2 {
+      width: 100%;
+      min-height: 0 !important;
+      height:100% !important;
+     
+      
+      background-color: transparent;
+      border-radius: 10px;
+      -webkit-box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5); }
+
+    .ion-nifty-modal2 .ion-modal-content-custom2 {
+      width: 100%;
+      height: 100%;
+      color: #FFF;
+      background-color: #444;
+      border-radius: 10px; 
+      opacity: 0.2;
+    }
+
+
+        .ion-nifty-modal {
+      width: 100%;
+      min-height: 0 !important;
+      height:100% !important;
+     
+      
+      background-color: transparent;
+      border-radius: 10px;
+      -webkit-box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5); }
+
+    .ion-nifty-modal .ion-modal-content-custom {
+      width: 100%;
+      height: 100%;
+      color: #FFF;
+      background-color: #444;
+      border-radius: 10px; }
+
+    /* Fix modal backdrop for smaller devices */
+    @media (max-width: 679px) {
+      .active .modal-backdrop-bg {
+        opacity: .5; }
+      .modal-backdrop-bg {
+        -webkit-transition: opacity 300ms ease-in-out;
+        transition: opacity 300ms ease-in-out;
+        background-color: #000;
+        opacity: 0; } }
+
+
+
+.wrap {
+      position: absolute;
+    
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    width: 100%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.text {
+    color: #ffeb3b;
+    display: inline-block;
+    margin-left: 36px;
+    font-size: 19px;
+}
+
+.bounceball {
+  position: relative;
+  display: inline-block;
+  height: 37px;
+  width: 15px;
+}
+.bounceball:before {
+  position: absolute;
+  content: '';
+  display: block;
+  top: 0;
+  background-image: url('img/noti1.png');
+      background-position: -4px;
+
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffeb3b;
+  -webkit-transform-origin: 50%;
+          transform-origin: 50%;
+  -webkit-animation: bounce 500ms alternate infinite ease;
+          animation: bounce 500ms alternate infinite ease;
+}
+
+@-webkit-keyframes bounce {
+  0% {
+    top: 30px;
+    height: 5px;
+    border-radius: 60px 60px 20px 20px;
+    -webkit-transform: scaleX(2);
+            transform: scaleX(2);
+  }
+  35% {
+    height: 15px;
+    border-radius: 50%;
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+  }
+  100% {
+    top: 0;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    top: 30px;
+    height: 5px;
+    border-radius: 60px 60px 20px 20px;
+    -webkit-transform: scaleX(2);
+            transform: scaleX(2);
+  }
+  35% {
+    height: 15px;
+    border-radius: 50%;
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+  }
+  100% {
+    top: 0;
+  }
+}
+    </style>
+    <ion-view view-title="Menu Principal" hide-back-button='true' >
+
+
+
+
+
+
+
+    <!--  <ion-content style='background-color: #fafafa; background-image: url("img/6407.jpg");'> -->
+
+     <ion-content  style='background-color: #100c01' >
+
+    <div style='       margin-top: -60px;
+         height: 60%; background-size: cover;background-color: #fafafa; background-image: url("img/64555.jpg");'></div>
+
+
+        <div  style="      height: 36.5%;  margin-top: -75px;">
+
+          <img style='      width: 85%;
+        margin-left: 7.5%;
+       ' src="img/logoAmarillo.png">
+
+        </div>
+
+
+
+        <div  ng-show='!enBusqueda'  style="text-align:center; margin-top:-30px">
+            <button ng-click='cargando()' style="   margin-top: 20px;   padding-left: 0px;  min-width: 255px;height: 55px;" class="button"> 
+
+            <img style='float:left; margin-left: 15px; vertical-align: middle;' src="img/micro.png">Serenatas</button>
+
+
+            <button ng-click='openModal()' style="       padding-left: 0px; min-width: 255px;height: 55px;margin-top: 20px;" class="button"> 
+
+            <img style='float:left; margin-left: 15px; vertical-align: middle;' src="img/reserva.png">Reserva para YA!</button>
+        </div>
+
+        <div style='text-align: center;width: 100%;position: absolute;' ng-show='enBusqueda'>
+            <div class="wrap">
+                <div class="loading">
+                <div class="bounceball"></div>
+                <div class="text">Buscando Artistas...</div>
+                </div>
+            </div>
+
+<!--             <div ng-click='' style="    color: #fafafa;margin-top: 45px;font-size: 19px;">
+            4 Artistas interesados <i style="
+    margin-left: 10px;
+" class="ion-chevron-right"></i>
+            </div> -->
+
+   <!--           <button style='color:#444 !important' class="button button-small button-energized">
+  Cancelar Busqueda
+</button>
+ -->
+ <button ng-click='artistasInteresados()'  style='border: solid 2px;    min-width: 270px;
+    margin-top: 45px;' class="button button-small button-outline button-energized">
+  <strong style="font-size:25px">{{interesados}}</strong> Artistas interesados
+</button> 
+
+ <button ng-click='cancelarBusqueda()' style='border: solid 2px;    min-width: 270px;
+    margin-top: 17px;' class="icon-left ion-close-circled button button-small button-outline button-energized">
+  Cancelar Busqueda
+</button>
+</div>
+    
+
+
+
+      </ion-content>
+    </ion-view>

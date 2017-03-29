@@ -1,0 +1,71 @@
+
+
+
+<ion-view view-title="La Playa">
+
+
+
+
+
+
+
+ <ion-content style='background-color: #fafafa'>
+
+<div  class="item card-item"  collection-repeat='p in publicaciones' style="font-family: Ubuntu;" ng-click='detallePublicacion(p)'>
+            <div  class="card stable-bg ink ink-dark">
+                <div class="item item-avatar item-text-wrap">
+                    <span class="avatar" style="background-image: url('img/solista.jpg'); 
+    border: solid 2px lightgoldenrodyellow;   text-align: center;
+    line-height: 2.1;
+    font-size: 27px;
+    font-weight: bold;
+    color: black;"></span>
+
+    <span style="       width: 63px;    position: absolute;left: 0;margin-top: 60px;text-align: center;margin-left: 10px;color: lightslategray; "> {{p.nombre}}</span>
+  <!--                   <strong><i ng-class="{'ion-man': p.genero == 1,  'ion-woman': p.genero == 2}" class="icon" style="font-size: 20px;  color:cornflowerblue;  float: right;"></i>{{p.titulo}} </strong>     -->
+
+  <strong><!-- <i ' class="icon ion-man" style="    color: #555;font-size: 20px;  color:cornflowerblue;  float: right;"></i>  -->{{p.motivo}}</strong> 
+
+                    
+                    <div style='    color: #555;    margin-top: 3px;' class="">
+                       
+                        
+                  
+
+        
+                        <div style='    text-align: left; padding-top: 3px;' class="">
+                           <i style='margin-right: 6px;' class="icon    ion-location "></i> {{p.ciudad}}
+                            
+                        </div>
+<!-- 
+                        <div style='    text-align: left; padding-top: 7px;' class="">
+                           <i class="icon ion-checkmark-circled balanced"></i> 6 jugadores anotados
+                            
+                        </div> -->
+
+
+                         <div style='    text-align: left; padding-top: 3px;' class="">
+                            <i style='margin-right: 6px;' class="icon ion-music-note"></i>{{getCat(p.idCategoria)}}
+                            
+                        </div>
+                              <div class="" style="padding-top: 3px;">
+                            <i style='margin-right: 4px;' class="icon ion-clock"></i> Hace {{timeSince(p.fechaPublicacion)}}
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <span ng-show='verificarAsistencia(p.fut)' style="    color: lightcoral;position: absolute; bottom: 0;margin-bottom: 10px;right: 0px; margin-right: 10px;"><strong>Asistiras</strong></span>
+
+
+            </div>
+
+            
+        </div>
+
+
+
+
+  </ion-content>
+</ion-view>

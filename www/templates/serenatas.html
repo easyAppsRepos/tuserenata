@@ -1,0 +1,170 @@
+
+ 
+    <ion-view view-title="Busqueda">
+
+<!-- 
+
+     <ion-content style="      background-image: url(img/fondoCategorias.png);
+    background-color: rgba(255,255,255,0.6);
+    background-blend-mode: lighten;
+    height: 100%;
+    width: 100%;
+    background-size: cover;" >
+
+      <div class="list">
+
+ 
+
+  <a style="    padding: 22px;font-size: 20px; color: #444;min-height: 60px;" class="item  item-icon-right" >
+   
+    Mariachi
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+  <a style="    padding: 22px;font-size: 20px; color: #444;min-height: 60px;" class="item  item-icon-right" >
+   
+    Boleros
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+  <a style="    padding: 22px;font-size: 20px; color: #444;min-height: 60px;" class="item  item-icon-right" >
+   
+    Parranda vallenata
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+
+  <a style="    padding: 22px;font-size: 20px; color: #444;min-height: 60px;" class="item  item-icon-right" >
+   
+    Orquesta Tropical
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+  <a style="    padding: 22px;font-size: 20px; color: #444;min-height: 60px;" class="item  item-icon-right" >
+   
+    Bandas de Rock
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+
+</div>
+
+      </ion-content> -->
+
+
+
+
+     <ion-content style='background-color: #444'>
+
+
+<!-- <div class="list" style="margin-bottom:0px !important">
+
+
+   <a style="background-color: #444; padding: 22px;font-size: 18px;color: #fafafa; min-height: 60px;" class="item  item-icon-right" >
+   
+    Busqueda por nombre
+  
+  </a>
+
+
+  <div class="item item-input-inset">
+    <label class="item-input-wrapper">
+      <input type="text" placeholder="buscar...">
+    </label>
+    <button class="button button-small">
+      Buscar
+    </button>
+  </div>
+
+</div>
+ -->
+
+
+      <div class="list">
+
+ 
+<!--    <a style="background-color: #444; padding: 22px;font-size: 18px;color: #fafafa; min-height: 60px;border-bottom: solid 2px #ffc900;" class="item  item-icon-right" >
+   
+    Busqueda por Genero
+  
+  </a> -->
+
+
+
+  <a style="background-color: #444; padding: 22px;font-size: 18px;color: #fafafa; min-height: 60px;border-bottom: solid 2px #ffc900;" class="item  item-icon-right" ui-sref="app.genero({idCategoria: 1, genero: 'Mariachis' })" >
+   
+    Mariachis
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+
+  <a ui-sref="app.genero({idCategoria: 2, genero: 'Boleros'})"  style="background-color: #444; padding: 22px;font-size: 18px;color: #fafafa; min-height: 60px;border-bottom: solid 2px #ffc900;" class="item  item-icon-right" >
+   
+    Boleros
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+
+    <a ui-sref="app.genero({idCategoria: 3, genero: 'Norteñas'})" style="background-color: #444; padding: 22px;font-size: 18px;color: #fafafa; min-height: 60px;border-bottom: solid 2px #ffc900;" class="item  item-icon-right" >
+   
+   Norteñas
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+    <a ui-sref="app.genero({idCategoria: 4, genero: 'Tunas'})" style="background-color: #444; padding: 22px;font-size: 18px;color: #fafafa; min-height: 60px;border-bottom: solid 2px #ffc900;" class="item  item-icon-right" >
+   
+   Tunas
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+    <a ui-sref="app.genero({idCategoria: 5, genero: 'Parranda Vallenato'})"  style="background-color: #444; padding: 22px;font-size: 18px;color: #fafafa; min-height: 60px;border-bottom: solid 2px #ffc900;" class="item  item-icon-right" >
+   
+    Parranda Vallenato
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+
+    <a ui-sref="app.genero({idCategoria: 6, genero: 'Llanera'})" style="background-color: #444; padding: 22px;font-size: 18px;color: #fafafa; min-height: 60px;border-bottom: solid 2px #ffc900;" class="item  item-icon-right" >
+   
+    Llanera
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+
+    <a ui-sref="app.genero({idCategoria: 7, genero: 'Bandas de Rock'})" style="background-color: #444; padding: 22px;font-size: 18px;color: #fafafa; min-height: 60px;border-bottom: solid 2px #ffc900;" class="item  item-icon-right" >
+   
+    Bandas de Rock
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+
+    <a ui-sref="app.genero({idCategoria: 8, genero: 'Carranguera'})" style="background-color: #444; padding: 22px;font-size: 18px;color: #fafafa; min-height: 60px;border-bottom: solid 2px #ffc900;" class="item  item-icon-right" >
+   
+    Carranguera
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+
+    <a ui-sref="app.genero({idCategoria: 9, genero: 'Solistas'})" style="background-color: #444; padding: 22px;font-size: 18px;color: #fafafa; min-height: 60px;border-bottom: solid 2px #ffc900;" class="item  item-icon-right" >
+   
+    Solistas
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+
+    <a ui-sref="app.genero({idCategoria: 10, genero: 'Orquestas Tropicales'})" style="background-color: #444; padding: 22px;font-size: 18px;color: #fafafa; min-height: 60px;border-bottom: solid 2px #ffc900;" class="item  item-icon-right" >
+   
+    Orquestas Tropicales
+    <i class="icon ion-chevron-right"></i>
+  </a>
+
+
+ 
+
+
+</div>
+
+      </ion-content>
+
+
+    </ion-view>

@@ -7,6 +7,18 @@ h1 {
 }
 
 
+.item-select select {
+
+      padding: 6px 9px 8px 9px !important;
+}
+
+.item-select:after {
+    position: absolute;
+
+    left: calc(65% + 8px);
+
+}
+
 .bar.bar-energized .title {
     color: #444 !important;
 }
@@ -15,6 +27,35 @@ h1 {
 .bar .button.button-clear {
   color: #444 !important;
 }
+
+
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('../lib/ionic/fonts/UbuntuRegular.ttf') format('truetype')
+         
+}
+
+@font-face {
+    font-family: 'UbuntuL';
+    src: url('../lib/ionic/fonts/UbuntuLight.ttf') format('truetype')
+         
+}
+
+
+@font-face {
+    font-family: 'UbuntuM';
+    src: url('../lib/ionic/fonts/UbuntuM.ttf') format('truetype')
+         
+}
+
+
+@font-face {
+    font-family: 'UbuntuB';
+    src: url('../lib/ionic/fonts/UbuntuB.ttf') format('truetype')
+         
+}
+
 
 
 /* Utilities
@@ -87,3 +128,167 @@ p {
     position: fixed;
     bottom: 0;
 }
+
+.buscandoPage{
+
+    height: 100% !important;
+    width: 100% !important;
+    background-color: white;
+    z-index: 40;
+    
+
+}
+
+.button-blueCustoms{
+
+  color: #444;
+    font-family: Ubuntu;
+    background-color: white;
+    border: solid 1px white;
+    height: 40px;
+    min-height: 20px !important;
+
+
+}
+.button-blueCustom{
+
+  color: #444;
+    font-family: Ubuntu;
+
+    background-color:white;
+    border: solid 1px white;
+    margin-top: 20px;
+}
+
+.popup{
+        background-color: #444 !important;
+}
+
+.popup-head {border-bottom: none !important}
+
+
+     .ion-nifty-modal3 {
+    width: 90%;
+    min-height: 0 !important;
+    height: 80% !important;
+    background-color: transparent;
+    border-radius: 10px;
+    -webkit-box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    margin-top: 23%;
+    margin-left: 5%;
+
+  }
+
+    .ion-nifty-modal3 .ion-modal-content-custom3 {
+      width: 100%;
+      height: 100%;
+      color: #FFF;
+      background-color: #444;
+      border-radius: 10px; 
+
+
+  }
+
+    /* Fix modal backdrop for smaller devices */
+    @media (max-width: 679px) {
+      .active .modal-backdrop-bg {
+        opacity: .5; }
+      .modal-backdrop-bg {
+        -webkit-transition: opacity 300ms ease-in-out;
+        transition: opacity 300ms ease-in-out;
+        background-color: #000;
+        opacity: 0; } }
+
+
+.estrellaAmarilla{color: #dcbb0c !important;}
+.estrellaGris{color: lightgray !important;}
+
+
+/* CHAT*/
+
+
+
+.messages {
+  display: -webkit-box !important;
+  display: -moz-box !important;
+  display: -ms-flexbox !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  -webkit-align-content: center !important;
+  -ms-flex-line-pack: center !important;
+  align-content: center !important;
+  -webkit-box-align: center !important;
+  -moz-box-align: center !important;
+  -webkit-align-items: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  margin-bottom: 20px !important;
+}
+.messages .message {
+  -webkit-box-flex: 1 !important;
+  -moz-box-flex: 1 !important;
+  -webkit-flex: 1 1 auto !important;
+  -ms-flex: 1 1 auto !important;
+  flex: 1 1 auto !important;
+  padding: 10px !important;
+  -webkit-transition: all 250ms ease-in-out !important;
+  transition: all 250ms ease-in-out !important;
+  overflow: hidden !important;
+  text-align: left !important;
+  -webkit-transform: translate3d(0, 0, 0) !important;
+  -moz-transform: translate3d(0, 0, 0) !important;
+  transform: translate3d(0, 0, 0) !important;
+}
+
+.time {
+  -webkit-box-flex: 0 !important;
+  -moz-box-flex: 0 !important;
+  -webkit-flex: 0 1 auto !important;
+  -ms-flex: 0 1 auto !important;
+  flex: 0 1 auto !important;
+  -webkit-align-self: auto !important;
+  -ms-flex-item-align: auto !important;
+  align-self: auto !important;
+  width: 120px !important;
+  text-align: center !important;
+  padding: 0 0 0 0 !important;
+  -webkit-transition: all 250ms ease-in-out !important;
+  transition: all 250ms ease-in-out !important;
+  -webkit-transform: translate3d(10px, 0, 0) !important;
+  -moz-transform: translate3d(10px, 0, 0) !important;
+  transform: translate3d(10px, 0, 0) !important;
+}
+.time.slide-right {
+  -webkit-transform: translate3d(130px, 0, 0) !important;
+  -moz-transform: translate3d(130px, 0, 0) !important;
+  transform: translate3d(130px, 0, 0) !important;
+}
+
+.messages.other .message {
+  -webkit-transform: translate3d(0, 0, 0) !important;
+  -moz-transform: translate3d(0, 0, 0) !important;
+  transform: translate3d(0, 0, 0) !important;
+  text-align: right !important;
+}
+.messages.other .message.slide-right {
+  -webkit-transform: translate3d(120px, 0, 0) !important;
+  -moz-transform: translate3d(120px, 0, 0) !important;
+  transform: translate3d(120px, 0, 0) !important;
+}
+.messages.other span {
+  color: black !important;
+  background-color: #C7C7CC !important;
+}
+
+.ss {
+  background: #007AFF !important;
+  display: inline-block !important;
+  color: white !important;
+  padding: 10px !important;
+  border-radius: 10px !important;
+  text-align: left !important;
+  max-width: 240px !important;
+}
+
+
