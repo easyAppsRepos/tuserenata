@@ -1464,6 +1464,133 @@ $scope.agregarEvento  = function(){
 
 })
 
+.controller('ProfileArtistaCtrl', function($scope, $stateParams, $sce, $ionicModal, $timeout, $ionicPopup, $ionicLoading, api, serverConfig, ionicMaterialMotion, $ionicSideMenuDelegate, ionicMaterialInk) {
+
+     $scope.$parent.showHeader();
+    $scope.$parent.clearFabs();
+    $scope.isExpanded = false;
+    $scope.$parent.setExpanded(false);
+    $scope.$parent.setHeaderFab(false);
+$ionicSideMenuDelegate.canDragContent(false);
+    // Set Motion
+    $timeout(function() {
+        ionicMaterialMotion.slideUp({
+            selector: '.slide-up'
+        });
+    }, 300);
+
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+$scope.tipoTab='info';
+$scope.edit={};
+
+ ionicMaterialInk.displayEffect();
+
+
+ $scope.editarPerfil = function(){
+
+
+  console.log('ddcc33');
+
+  $scope.edit.nombre = $scope.infoPerfil.nombre;
+   $scope.edit.descripcion = $scope.infoPerfil.descripcion;
+    $scope.edit.precioXhora = $scope.infoPerfil.precioXhora;
+     $scope.edit.linkVideo1 = $scope.infoPerfil.linkVideo1;
+      $scope.edit.linkVideo2 = $scope.infoPerfil.linkVideo2;
+
+
+  $scope.openModal();
+ }
+  function getInfoPerfil(){
+
+       $ionicLoading.show();
+        var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+        $scope.idArtista =  userData.idUsuario;
+        $scope.urlImagenes = serverConfig.imageStorageURL;
+
+    
+        api.getInfoPerfil($scope.idArtista).then(function(data) {
+      //$ionicLoading.hide();
+       $ionicLoading.hide();
+      if(!data.error){
+
+     console.log(data);
+     $scope.infoPerfil = data.infoPerfil;
+     $scope.comentarios = data.comentarios;
+      }
+      else{
+      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      }
+      });
+
+
+ }
+
+     $scope.getCat=function(categoria){
+
+      if(categoria==1){return 'Mariachis' }
+        if(categoria==2){return 'Boleros' }
+          if(categoria==3){return 'Norteñas' }
+            if(categoria==4){return 'Tunas' }
+              if(categoria==5){return 'Parranda Vallenato' }
+                if(categoria==6){return 'Llanera' }
+                  if(categoria==7){return 'Bandas de Rock' }
+                    if(categoria==8){return 'Carranguera' }
+                      if(categoria==9){return 'Solistas' }
+                        if(categoria==10){return 'Orquestas Tropicales' }
+
+      return ' - ';
+    }
+
+
+
+ getInfoPerfil();
+
+
+    $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
+ 
+  $scope.openModal= function(animation) {
+    $ionicModal.fromTemplateUrl('editPerfil.html', {
+      scope: $scope,
+      animation: animation
+    }).then(function(modal) {
+
+      $scope.modal = modal;
+      $scope.modal.show();
+
+
+
+     
+    });
+  };
+
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+  //  $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+    //end modal
+
+
+
+})
+
 .controller('ProfileCtrl', function($scope, $stateParams, $sce, $ionicModal, $timeout, $ionicPopup, $ionicLoading, api, serverConfig, ionicMaterialMotion, $ionicSideMenuDelegate, ionicMaterialInk) {
     // Set Header
     $scope.$parent.showHeader();

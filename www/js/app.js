@@ -44,7 +44,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         });
         //push final 
 
-        
+
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -261,7 +261,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }
         }
     })
-
+    .state('app.profileArtista', {
+        url: '/profileArtista',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/profileArtista.html',
+                controller: 'ProfileArtistaCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function ($timeout) {
+                    /*$timeout(function () {
+                        document.getElementById('fab-profile').classList.toggle('on');
+                    }, 800);*/
+                }
+            }
+        }
+    })
     .state('app.profile', {
         url: '/profile/:idArtista',
         views: {
