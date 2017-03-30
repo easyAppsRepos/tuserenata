@@ -105,7 +105,7 @@ angular.module('starter.controllers', [])
           api.removePush(localStorage.getItem('TSidPush')).then(function(response){
 
           
-          window.localStorage.setItem('pushKeyTS', undefined);
+         // window.localStorage.setItem('pushKeyTS', undefined);
           window.localStorage.setItem('TSidPush', undefined);
           $ionicLoading.hide();
           $state.go('app.login');
@@ -738,6 +738,29 @@ $scope.reserva={};
 $scope.enBusqueda=1;
 
 
+
+  $scope.detallePublicacion = function(){
+
+    console.log(data);
+    //$scope.infoModal=data;
+    $scope.openModal2();
+
+  }
+
+    $scope.openModal2 = function() {
+    $ionicModal.fromTemplateUrl('detallePublicacion.html', {
+    //  $ionicModal.fromTemplateUrl('buscando.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      $scope.modal.show();
+    });
+  };
+
+
+
+
   $scope.abrirDetalleArtista = function(idArtista){
 
     console.log(idArtista);
@@ -839,6 +862,24 @@ console.log(idPublicacion);
         console.log('artista solicitado');
         $scope.enBusqueda = 3;
 
+      $ionicLoading.show();
+      var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+      var idUser = userData.idUsuario;
+
+              api.getInfoSerenata(idUser).then(function(data) {
+
+      $ionicLoading.hide();
+      if(!data.error){
+        console.log(data);
+         $scope.infoModal = data.infoSerenata;   
+      }
+      else{
+      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      }
+      });
+
+
+
       }
 
       else{
@@ -875,7 +916,20 @@ console.log(idPublicacion);
 
 $scope.notificarLlegada = function(){
 
+      $ionicLoading.show();
+      var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+      var idUser = userData.idUsuario;
 
+      api.notificarLlegada(idUser).then(function(data) {
+
+      $ionicLoading.hide();
+      if(!data.error){
+        mensajeAlerta('Tu cliente ha sido notificado');    
+      }
+      else{
+      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      }
+      });
 }
 
 

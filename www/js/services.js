@@ -198,6 +198,39 @@ console.log(reservaObj);
         },
 
 
+                notificarLlegada:function(idUsuario){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/notificarLlegada', {idUsuario:idUsuario})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+            response.data.error = true;
+            return response.data;
+            });
+        },
+
+
+            getInfoSerenata:function(idUsuario){  
+
+                return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getInfoSerenata', {idUsuario:idUsuario})
+                .then(function(response) {
+                console.log(response);
+                return response.data;
+                }, function(response) {
+                // something went wrong
+                console.log(response);
+                response.data.error = true;
+                return response.data;
+                });
+            },
+
+
+
+
+
         getItemsCategoria:function(idCategoria){  
 
             return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getItemsCategoria',{idCategoria:idCategoria})
