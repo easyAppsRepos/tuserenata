@@ -37,8 +37,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         //alert('Tienes una notificacion: '+data.title);
 
          console.log(data);
-         // $rootScope.$broadcast('actualizarInteresados');
-         api.actualizarVista();
+          $rootScope.$broadcast('actualizarInteresados');
+         //api.actualizarVista();
 
         });
 
