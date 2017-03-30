@@ -1368,14 +1368,14 @@ console.log(date);
   }
 
   $scope.postularme = function(idPublicacion, idUsuarioPropone){
-
+$ionicLoading.show();
  
     var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
     var idUser = userData.idUsuario;
     var arrayDatos = {idArtista:idUser, idPublicacion: idPublicacion, idUsuarioPropone:idUsuarioPropone};
 
         api.postularArtista(arrayDatos).then(function(data) {
-
+console.log(data);
       $ionicLoading.hide();
       
       if(!data.error){

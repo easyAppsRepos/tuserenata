@@ -6,8 +6,9 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic-material', 'onezone-datepicker', 'ionMdInput', 'ionic-datepicker', 'ionic-timepicker'])
 
-.run(function($ionicPlatform) {
-    $ionicPlatform.ready(function($rootScope) {
+.run(function($ionicPlatform,$rootScope) {
+    $ionicPlatform.ready(function() {
+
 
 
                 //PUSH FUNCIONANDO
@@ -36,8 +37,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         //alert('Tienes una notificacion: '+data.title);
 
          console.log(data);
-          $rootScope.$broadcast('actualizarInteresados');
-         
+         // $rootScope.$broadcast('actualizarInteresados');
+         api.actualizarVista();
+
         });
 
         push.on('error', function(e) {
