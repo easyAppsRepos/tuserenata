@@ -131,6 +131,103 @@
 
 
 
+
+
+       <script id="detallePublicacion2.html" type="text/ng-template">
+      <ion-modal-view class="ion-nifty-modal3">
+
+
+        <div  class="ion-modal-content-custom3">
+
+                    <i style="     float: right;
+    color: #ffc900 !important;
+    font-size: 22px;
+    position: absolute;
+    right: 0;
+    z-index: 33;"    ng-click='closeModal()' class="ion-android-cancel"></i>
+
+          <ion-content class="padding">
+
+
+<div>
+        <p style="
+    color: #ffc900 !important;
+    font-family: UbuntuM;
+    font-size: 20px;
+">Cliente</p>
+             <img src="img/solista.jpg" style="
+    height: 63px;
+    width: 63px;
+    border-radius: 60px;
+    vertical-align: top;
+    ">
+            <div style="
+    display: inline-block;
+       width: calc(100% - 70px);
+    color: white;
+    font-family: UbuntuL;
+    padding-left: 16px;
+">
+                <p style="
+    color: white !important;
+    margin-bottom: 9px;
+    margin-top: 5px;    font-size: 16px;
+"><i class="ion-person" style="font-size: 18px; color: #ffc900 !important;margin-right: 3px;"></i>{{infoModal.nombre}}</p>
+                <p style="
+    color: white !important;
+    margin-bottom: 0px !important;    font-size: 16px;
+"><i class="ion-ios-telephone" style="font-size: 18px; color: #ffc900 !important;margin-right: 3px;"></i>{{infoModal.telefonoContacto}}</p>
+            </div>
+
+        </div>
+
+
+<div style="
+    margin-top: 25px;
+    font-family: UbuntuL;
+    font-size: 16px;
+">
+                   <p style="
+    color: #ffc900 !important;
+    font-family: UbuntuM;
+    font-size: 20px;
+">Evento</p>
+
+<div style="margin-top:7px"> <i class="ion-bookmark" style="    font-size: 18px; color: #ffc900 !important;margin-right: 3px;"></i> Motivo: <i style="margin-left: 3px;">{{infoModal.motivo}}</i> </div>
+<div style="margin-top:7px"> <i class="ion-ios-musical-note" style="   font-size: 18px; color: #ffc900 !important;margin-right: 3px;"></i> Categoria: <i style="margin-left: 3px;">{{getCat(infoModal.idCategoria)}}</i> </div>
+<div style="margin-top:7px"> <i class="ion-location" style="    font-size: 18px;color: #ffc900 !important; margin-right: 3px;"></i> Ciudad: <i style="margin-left: 3px;">{{infoModal.ciudad}}</i> </div>
+<div style="margin-top:7px"> <i class="ion-map" style="    font-size: 18px;color: #ffc900 !important; margin-right: 3px;"></i> Direccion: <i style="margin-left: 3px;">{{infoModal.direccion}}</i> </div>
+
+
+        </div>
+     
+                
+     
+<div style="
+    margin-top: 25px;
+    font-family: UbuntuL;
+    font-size: 16px;
+">
+      <!--              <p style="
+    color: #ffc900 !important;
+    font-family: UbuntuM;
+    font-size: 20px;
+">Acciones</p> -->
+
+
+
+        </div>
+
+
+
+
+               
+          </ion-content>
+        </div>
+      </ion-modal-view>
+    </script>
+
+
     <script id="chat.html" type="text/ng-template">
   <ion-modal-view class="ion-nifty-modal">
 

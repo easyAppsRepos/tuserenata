@@ -741,14 +741,14 @@ $scope.enBusqueda=1;
 
   $scope.detallePublicacion = function(){
 
-    console.log(data);
+    //console.log(data);
     //$scope.infoModal=data;
     $scope.openModal2();
 
   }
 
     $scope.openModal2 = function() {
-    $ionicModal.fromTemplateUrl('detallePublicacion.html', {
+    $ionicModal.fromTemplateUrl('detallePublicacion2.html', {
     //  $ionicModal.fromTemplateUrl('buscando.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -954,6 +954,86 @@ verificarEstado();
 
 
 }
+
+$scope.terminarSerenata = function(){
+
+     $ionicLoading.show();
+      var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+      var idUser = userData.idUsuario;
+
+
+
+      api.terminarSerenata($scope.infoModal.idPublicacion, idUser, $scope.infoModal.idUsuario).then(function(data) {
+
+      $ionicLoading.hide();
+
+      if(!data.error){
+
+        mensajeAlerta('Enhorabuena, has terminado la serenata'); 
+        window.localStorage.setItem( 'estadoAppTS', 1);
+        verificarEstado();
+
+      }
+      else{
+      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      }
+      });
+
+
+}
+
+$scope.cancelarSerenataArtista=function(){
+//console.log($scope.infoModal.idPublicacion);
+
+      api.cancelarSerenata($scope.infoModal.idPublicacion,1).then(function(data) {
+
+      $ionicLoading.hide();
+
+      if(!data.error){
+
+        mensajeAlerta('Se ha cancelado la serenata'); 
+        window.localStorage.setItem( 'estadoAppTS', 1);
+        verificarEstado();
+
+      }
+      else{
+      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      }
+      });
+
+
+
+
+}
+
+
+$scope.cancelarSerenataCliente=function(){
+//console.log($scope.infoModal.idPublicacion);
+
+/*      api.cancelarSerenata($scope.infoModal.idPublicacion,1).then(function(data) {
+
+      $ionicLoading.hide();
+
+      if(!data.error){
+
+        mensajeAlerta('Se ha cancelado la serenata'); 
+        window.localStorage.setItem( 'estadoAppTS', 1);
+        verificarEstado();
+
+      }
+      else{
+      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      }
+      });
+
+
+*/
+
+}
+
+
+
+
 
 
   $scope.buscarGrupo=function(){
@@ -1296,9 +1376,63 @@ function mensajeAlerta(mensaje){
 
 }
 
-
+$scope.evaluacion={};
     // Set Ink
     ionicMaterialInk.displayEffect();
+
+    $scope.notiAccion=function(noti){
+      console.log(noti);
+
+      if(noti.idTipoNotificacion == 5 ){
+
+        console.log('evaluacion');
+
+        if(noti.estado==1){
+
+                var customTemplate =
+        '<div style="text-align:center"> <p style="margin-top:25px; color:white !important">¿Evalua del 1 al 5 el servicio brindado?</p>     <select style="    background-color: white;width: 100%;height: 35px;" ng-model="evaluacion.estrellas" > <option value="1" selected>Malo</option><option value="2" >Regular</option> <option value="3">Bueno</option><option value="4">Muy Bueno</option> <option value="5">Excelente</option></select> <div style="margin-top: 20px;margin-bottom: 5px;color: white;font-size: 15px;" >Agrega un comentario</div> <textarea ng-model="evaluacion.comentario" rows="4" style=" resize: none;"> </textarea></div>';
+
+      $ionicPopup.show({
+        template: customTemplate,
+        title: '',
+        subTitle: '',
+        scope:$scope,
+        buttons: [
+        {
+          text: 'Enviar',
+          type: 'botn button-energized',
+          onTap: function(e) {
+
+            console.log($scope.evaluacion);
+
+           
+/*//borrar start
+      $ionicLoading.show();
+        console.log(idArtista);
+       // console.log(id);
+
+        api.confirmarArtista(idArtista, idPublicacion).then(function(response){
+
+            $ionicLoading.hide();
+            window.localStorage.setItem( 'estadoAppTS', 4);
+            $state.go('app.inicio');
+
+
+        });*/
+//borrar ends
+          }
+        }]
+      });
+
+
+        }
+
+        else{
+          mensajeAlerta('Ya evaluaste este servicio');
+        }
+        
+      }
+    }
 
     function getNotificaciones(){
 

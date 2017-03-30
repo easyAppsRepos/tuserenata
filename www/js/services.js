@@ -183,6 +183,47 @@ console.log(reservaObj);
         },
 
 
+            cancelarSerenata:function(id,tipo){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/cancelarSerenata',{idPublicacion:id, tipo:tipo})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+               var e = response;
+               e.error =true;
+                //var r.data.error=true;
+
+               if(response.status==404){  e.error =true;}
+
+           
+            return e;
+            });
+        },
+
+                    terminarSerenata:function(id,idArtista,idUsuario){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/terminarSerenata',{idPublicacion:id, idArtista: idArtista, idUsuario:idUsuario})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+               var e = response;
+               e.error =true;
+                //var r.data.error=true;
+
+               if(response.status==404){  e.error =true;}
+
+           
+            return e;
+            });
+        },
+
+
         registrarArtista:function(datosArtista){  
 
             return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/registrarArtista',datosArtista)
@@ -203,12 +244,12 @@ console.log(reservaObj);
             return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/notificarLlegada', {idUsuario:idUsuario})
             .then(function(response) {
                 console.log(response);
-            return response.data;
+            return response;
             }, function(response) {
             // something went wrong
-               console.log(response);
-            response.data.error = true;
-            return response.data;
+              // console.log(response);
+            //response.data.error = true;
+            return response;
             });
         },
 
