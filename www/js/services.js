@@ -55,8 +55,68 @@ console.log(reservaObj);
             });
         },
 
+        getNotificaciones:function(data){
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getNotificaciones',{idUsuario: data})
+            .then(function(response) {
+
+                console.log(response);
+
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+          //  response.data.error = true;
+            var ew = {};
+            ew.error=true;
+            return ew;
+            });
+        },
+
+
+
+                getChats:function(data){
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getChats',{idUsuario: data})
+            .then(function(response) {
+
+                console.log(response);
+                
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+          //  response.data.error = true;
+            var ew = {};
+            ew.error=true;
+            return ew;
+            });
+        },
+
 
         
+
+                     removePush:function(id){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/removePush',{idPush: id})
+            .then(function(response) {
+
+                console.log(response);
+
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+               var e = response;
+               e.error =true;
+                //var r.data.error=true;
+
+               if(response.status==404){  e.recuperacionOK =false;}
+
+           
+            return e;
+            });
+        },
+
+
 
                 recuperarContra:function(email){  
 

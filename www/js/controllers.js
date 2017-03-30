@@ -88,23 +88,41 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('logoutCtrl', function($scope, $timeout, $rootScope, $state, $ionicLoading, $stateParams, ionicMaterialInk, $ionicSideMenuDelegate) {
+.controller('logoutCtrl', function($scope, $timeout, api, $rootScope, $state, $ionicLoading, $stateParams, ionicMaterialInk, $ionicSideMenuDelegate) {
 
 
     $scope.perfilArtista = false;
     $scope.cerrarSesion = function(){
 
-        $ionicLoading.show();
+     $ionicLoading.show();
 
-        window.localStorage.setItem( 'userInfoTS', null);
-        window.localStorage.setItem( 'estadoAppTS', null);
-        window.localStorage.setItem( 'idPublicacionAppTS', null);
+        window.localStorage.setItem( 'userInfoTS', undefined);
+        window.localStorage.setItem( 'estadoAppTS', undefined);
+        window.localStorage.setItem( 'idPublicacionAppTS', undefined);
 
-        console.log(JSON.parse(window.localStorage.getItem('userInfoTS')));
-$ionicLoading.hide();
+      if(localStorage.getItem('TSidPush')){
+
+          api.removePush(localStorage.getItem('TSidPush')).then(function(response){
+
+          
+          window.localStorage.setItem('pushKeyTS', undefined);
+          window.localStorage.setItem('TSidPush', undefined);
+          $ionicLoading.hide();
+          $state.go('app.login');
+          });
+
+      }
+
+      else{
+
+                $ionicLoading.hide();
         $state.go('app.login');
+
+      }
         
     }
+
+
 if($state.current.name !== 'app.login'){
             var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
             if(userData.tipoUsuario == 2) {$scope.perfilArtista = true} 
@@ -898,7 +916,9 @@ verificarEstado();
 
 
 })
-.controller('notificacionesCtrl', function($scope, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
+
+
+.controller('mensajesCtrl', function($scope, $ionicLoading, serverConfig, $ionicPopup, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
 
   $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -919,10 +939,142 @@ verificarEstado();
         });
     }, 700);
 
+$scope.urlImagenes = serverConfig.imageStorageURL;
+function mensajeAlerta(mensaje){
+
+        
+   var customTemplate =
+        '<div style="text-align:center;font-family: Ubuntu;"><img style="margin-top:10px" src="img/excla.png"> <p style="    font-size: 18px;color:#ffc900; margin-top:25px">'+mensaje+'</p> </div>';
+
+      $ionicPopup.show({
+        template: customTemplate,
+        title: '',
+        subTitle: '',
+        buttons: [{
+          text: 'Cerrar',
+          type: 'button-blueCustom',
+          onTap: function(e) {
+
+           // if(borrar){ $scope.user.pin='';}
+           
+          }
+        }]
+      });
+
+}
+
+
     // Set Ink
     ionicMaterialInk.displayEffect();
 
+    function getChats(){
 
+
+      $ionicLoading.show();
+
+
+        var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+        var idUser = userData.idUsuario;
+
+      api.getChats(idUser).then(function(data) {
+      $ionicLoading.hide();
+      
+      if(!data.error){
+
+      console.log(data.notificaciones);
+      $scope.chats = data.chats;
+
+    
+      }
+      else{
+      //mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      }
+      });
+
+    }
+
+    getChats();
+
+
+})
+
+
+.controller('notificacionesCtrl', function($scope, $ionicLoading, $ionicPopup, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
+
+  $scope.$parent.showHeader();
+    $scope.$parent.clearFabs();
+    $scope.isExpanded = false;
+    $scope.$parent.setExpanded(false);
+    $scope.$parent.setHeaderFab(false);
+
+    // Set Motion
+    $timeout(function() {
+        ionicMaterialMotion.slideUp({
+            selector: '.slide-up'
+        });
+    }, 300);
+
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+
+function mensajeAlerta(mensaje){
+
+        
+   var customTemplate =
+        '<div style="text-align:center;font-family: Ubuntu;"><img style="margin-top:10px" src="img/excla.png"> <p style="    font-size: 18px;color:#ffc900; margin-top:25px">'+mensaje+'</p> </div>';
+
+      $ionicPopup.show({
+        template: customTemplate,
+        title: '',
+        subTitle: '',
+        buttons: [{
+          text: 'Cerrar',
+          type: 'button-blueCustom',
+          onTap: function(e) {
+
+           // if(borrar){ $scope.user.pin='';}
+           
+          }
+        }]
+      });
+
+}
+
+
+    // Set Ink
+    ionicMaterialInk.displayEffect();
+
+    function getNotificaciones(){
+
+
+      $ionicLoading.show();
+
+
+        var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+        var idUser = userData.idUsuario;
+
+      api.getNotificaciones(idUser).then(function(data) {
+      $ionicLoading.hide();
+      
+      if(!data.error){
+
+      console.log(data.notificaciones);
+      $scope.notificaciones = data.notificaciones;
+
+    
+      }
+      else{
+      //mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      }
+      });
+
+    }
+
+    getNotificaciones();
 
 
 })

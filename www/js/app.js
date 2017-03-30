@@ -127,6 +127,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
     })
 
+            .state('app.mensajes', {
+        url: '/mensajes',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/mensajes.html',
+                controller: 'mensajesCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function ($timeout) {
+
+                }
+            }
+        }
+    })
+
+
 
       .state('app.contactenos', {
         url: '/contactenos',

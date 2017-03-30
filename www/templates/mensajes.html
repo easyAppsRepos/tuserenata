@@ -1,7 +1,7 @@
 
 
 
-<ion-view view-title="Notificaciones">
+<ion-view view-title="Mensajes">
 
 
 
@@ -15,12 +15,13 @@
 <div style='    text-align: center;
     font-size: 19px;
     color: #555;
-    margin-top: 40px;' ng-hide='notificaciones.lenght' > <img style='margin-bottom: 30px' src="img/vacio.png"> <br> No hay notificaciones</div>
- <div ng-repeat=' n in notificaciones' >
+    margin-top: 40px;' ng-hide='chats.lenght' > <img style='margin-bottom: 30px' src="img/vacio.png"> <br> No hay mensajes</div>
+
+ <div ng-repeat=' m in chats' >
     <a style='border-bottom: solid 1px lightgray' class="item item-avatar" >
-      <img ng-src="img/noti{{n.idTipoNotificacion}}.png">
-      <h2 style="white-space: normal;">{{n.titulo}}</h2>
-      <p>{{n.fecha}}</p>
+      <img ng-src="{{urlImagenes}}artista1_{{m.idArtista}}.jpg">
+      <h2 style="white-space: normal;">{{m.nombreArtista}}</h2>
+      <p>Informacion adicional</p>
     </a>
 </div>
 
