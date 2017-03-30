@@ -1569,7 +1569,7 @@ function uploadPhoto(imageURI) {
  options.chunkedMode = false;
 
 var ft = new FileTransfer();
- ft.upload(imageURI, serverConfig.url+"/TUSERENATA/v1/index.php/subirImagen", function(result){
+ ft.upload(imageURI, serverConfig.url+"/TUSERENATA/upload.php", function(result){
  console.log(JSON.stringify(result));
   $ionicLoading.hide();
   mensajeAlerta('Foto cambiada correctamente');
