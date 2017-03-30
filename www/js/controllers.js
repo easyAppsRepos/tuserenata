@@ -1559,7 +1559,7 @@ function uploadPhoto(imageURI) {
   $ionicLoading.show();
  var options = new FileUploadOptions();
  options.fileKey = "file";
- options.fileName = getFotoOrden()+$scope.idArtista+'.jpg';
+ options.fileName = 'test.jpg';
  options.mimeType = "image/jpeg";
  console.log(options.fileName);
  var params = new Object();
