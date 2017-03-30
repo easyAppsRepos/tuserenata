@@ -1403,9 +1403,10 @@ $scope.evaluacion={};
           type: 'botn button-energized',
           onTap: function(e) {
 
-            console.log($scope.evaluacion);
+            console.log($scope.evaluacion.comentario);
+            console.log($scope.evaluacion.estrellas);
 
-           
+
 /*//borrar start
       $ionicLoading.show();
         console.log(idArtista);
