@@ -36,6 +36,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         //alert('Tienes una notificacion: '+data.title);
 
          console.log(data);
+          $rootScope.$broadcast('actualizarInteresados');
+         
         });
 
         push.on('error', function(e) {

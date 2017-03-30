@@ -707,6 +707,13 @@ $state.go('app.profile', { idArtista:idArtista });
 //});
 
 
+      $scope.$on('actualizarInteresados', function(event, args) {
+
+        console.log('en actualizarInteresados');
+        verificarInteresados();
+
+      });
+
 
 $scope.reserva={};
 $scope.enBusqueda=false;
@@ -1360,12 +1367,12 @@ console.log(date);
 
   }
 
-  $scope.postularme = function(idPublicacion){
+  $scope.postularme = function(idPublicacion, idUsuarioPropone){
 
  
     var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
     var idUser = userData.idUsuario;
-    var arrayDatos = {idArtista:idUser, idPublicacion: idPublicacion};
+    var arrayDatos = {idArtista:idUser, idPublicacion: idPublicacion, idUsuarioPropone:idUsuarioPropone};
 
         api.postularArtista(arrayDatos).then(function(data) {
 
