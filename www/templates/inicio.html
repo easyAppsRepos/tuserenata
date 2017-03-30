@@ -174,7 +174,7 @@
   content: '';
   display: block;
   top: 0;
-  background-image: url('img/noti1.png');
+  background-image: url('img/noti3.png');
       background-position: -4px;
 
   width: 40px;
@@ -241,7 +241,7 @@
          height: 60%; background-size: cover;background-color: #fafafa; background-image: url("img/64555.jpg");'></div>
 
 
-        <div  style="      height: 36.5%;  margin-top: -75px;">
+        <div  ng-show='enBusqueda == 1' style="      height: 36.5%;  margin-top: -75px;">
 
           <img style='      width: 85%;
         margin-left: 7.5%;
@@ -251,7 +251,7 @@
 
 
 
-        <div  ng-show='!enBusqueda'  style="text-align:center; margin-top:-30px">
+          <div  ng-show='enBusqueda == 1'  style="text-align:center; margin-top:-30px">
             <button ng-click='cargando()' style="   margin-top: 20px;   padding-left: 0px;  min-width: 255px;height: 55px;" class="button"> 
 
             <img style='float:left; margin-left: 15px; vertical-align: middle;' src="img/micro.png">Serenatas</button>
@@ -260,37 +260,69 @@
             <button ng-click='openModal()' style="       padding-left: 0px; min-width: 255px;height: 55px;margin-top: 20px;" class="button"> 
 
             <img style='float:left; margin-left: 15px; vertical-align: middle;' src="img/reserva.png">Reserva para YA!</button>
-        </div>
+          </div>
 
-        <div style='text-align: center;width: 100%;position: absolute;' ng-show='enBusqueda'>
+          <div style='text-align: center;width: 100%;position: absolute;' ng-show='enBusqueda == 2'>
             <div class="wrap">
-                <div class="loading">
-                <div class="bounceball"></div>
-                <div class="text">Buscando Artistas...</div>
-                </div>
+            <div class="loading">
+            <div class="bounceball"></div>
+            <div class="text">Buscando Artistas...</div>
+            </div>
             </div>
 
-<!--             <div ng-click='' style="    color: #fafafa;margin-top: 45px;font-size: 19px;">
-            4 Artistas interesados <i style="
-    margin-left: 10px;
-" class="ion-chevron-right"></i>
-            </div> -->
 
-   <!--           <button style='color:#444 !important' class="button button-small button-energized">
-  Cancelar Busqueda
-</button>
- -->
- <button ng-click='artistasInteresados()'  style='border: solid 2px;    min-width: 270px;
-    margin-top: 45px;' class="button button-small button-outline button-energized">
-  <strong style="font-size:25px">{{interesados}}</strong> Artistas interesados
-</button> 
+            <button ng-click='artistasInteresados()'  style='border: solid 2px;    min-width: 270px;
+            margin-top: 45px;' class="button button-small button-outline button-energized">
+            <strong style="font-size:25px">{{interesados}}</strong> Artistas interesados
+            </button> 
 
- <button ng-click='cancelarBusqueda()' style='border: solid 2px;    min-width: 270px;
-    margin-top: 17px;' class="icon-left ion-close-circled button button-small button-outline button-energized">
-  Cancelar Busqueda
-</button>
-</div>
+            <button ng-click='cancelarBusqueda()' style='border: solid 2px;    min-width: 270px;
+            margin-top: 17px;' class="icon-left ion-close-circled button button-small button-outline button-energized">
+            Cancelar Busqueda
+            </button>
+          </div>
     
+
+            <div style='text-align: center;width: 100%;position: absolute;' ng-show='enBusqueda == 3'>
+                <div class="wrap">
+                <div class="loading">
+                <div class="bounceball"></div>
+                <div class="text">En servicio...</div>
+                </div>
+                </div>
+
+
+                <button ng-click='notificarLlegada()'  style='border: solid 2px;    min-width: 270px;
+                margin-top: 45px;' class="icon-left ion-android-notifications button button-small button-outline button-energized">
+                Notificar Llegada
+                </button> 
+
+                <button ng-click='cancelarBusqueda()' style='border: solid 2px;    min-width: 270px;
+                margin-top: 17px;' class="icon-left ion-checkmark-circled button button-small button-outline button-energized">
+                Serenata Cumplida
+                </button>
+
+                <button ng-click='cancelarBusqueda()' style='border: solid 2px;    min-width: 270px;
+                margin-top: 17px;' class="icon-left ion-close-circled button button-small button-outline button-energized">
+                Cancelar Serenata
+                </button>
+          </div>
+
+
+            <div style='text-align: center;width: 100%;position: absolute;' ng-show='enBusqueda == 4'>
+                <div class="wrap">
+                <div class="loading">
+                <div class="bounceball"></div>
+                <div class="text">Tu serenata esta en camino! </div>
+                </div>
+                </div> 
+
+       
+
+    
+          </div>
+
+
 
 
 

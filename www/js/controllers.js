@@ -715,8 +715,27 @@ $state.go('app.profile', { idArtista:idArtista });
       });
 
 
+     $scope.$on('artistaElegido', function(event, args) {
+
+        console.log('en artistaElegido');
+        $scope.enBusqueda = 3;
+        window.localStorage.setItem( 'estadoAppTS', 3);
+
+      });
+
+
+     $scope.$on('eventoFinalizado', function(event, args) {
+
+        console.log('en eventoFinalizado');
+        $scope.enBusqueda = 1;
+        window.localStorage.setItem( 'estadoAppTS', 1);
+
+      });
+
+
+
 $scope.reserva={};
-$scope.enBusqueda=false;
+$scope.enBusqueda=1;
 
 
   $scope.abrirDetalleArtista = function(idArtista){
@@ -756,19 +775,75 @@ console.log(idPublicacion);
 
    }
 
+   $scope.escogerArtista = function(idArtista, idPublicacion){
+
+    console.log(idArtista);
+
+        var customTemplate =
+        '<div style="text-align:center"><img style="margin-top:10px" src="img/excla.png"> <p style="margin-top:25px; color:white !important">¿Estas seguro que deseas escoger a este artista?</p> </div>';
+
+      $ionicPopup.show({
+        template: customTemplate,
+        title: '',
+        subTitle: '',
+        buttons: [
+        {
+          text: 'Si',
+          type: 'botn button-energized',
+          onTap: function(e) {
+
+            console.log('si');
+
+//borrar start
+      $ionicLoading.show();
+        console.log(idArtista);
+       // console.log(id);
+
+        api.confirmarArtista(idArtista, idPublicacion).then(function(response){
+
+            $ionicLoading.hide();
+            window.localStorage.setItem( 'estadoAppTS', 4);
+            $state.go('app.inicio');
+
+
+        });
+//borrar ends
+          }
+        },
+        {
+          text: 'No',
+          type: 'botn button-light',
+          onTap: function(e) {
+
+          }
+        }]
+      });
+   }
+
   function verificarEstado(){
 
      // var estado = JSON.parse(window.localStorage.getItem('estadoAppTS')) ;
      var estado = window.localStorage.getItem('estadoAppTS') ;
+
+
+ 
+
       if(estado==2){
         console.log('eestado 2');
-        $scope.enBusqueda = true;
+        $scope.enBusqueda = 2;
         verificarInteresados();
 
       }
+
+      else if(estado==3){
+        console.log('artista solicitado');
+        $scope.enBusqueda = 3;
+
+      }
+
       else{
         console.log('eestado 1');
-        $scope.enBusqueda = false;}
+        $scope.enBusqueda = 1;}
 
 
   }
@@ -798,6 +873,11 @@ console.log(idPublicacion);
 }
 
 
+$scope.notificarLlegada = function(){
+
+
+}
+
 
 $scope.artistasInteresados=function(){
 
@@ -824,7 +904,7 @@ verificarEstado();
 
   $scope.buscarGrupo=function(){
 
-  //$scope.enBusqueda = true;
+  
   //$scope.closeModal();
       
 
@@ -947,6 +1027,7 @@ verificarEstado();
         });
     }, 700);
 
+$scope.mensajesCero = false;
 $scope.urlImagenes = serverConfig.imageStorageURL;
 function mensajeAlerta(mensaje){
 
@@ -989,7 +1070,9 @@ function mensajeAlerta(mensaje){
       
       if(!data.error){
 
-      console.log(data.notificaciones);
+        if(data.chats.length==0){$scope.mensajesCero = true;}
+        else{$scope.mensajesCero = false;}
+      console.log(data.chats.length);
       $scope.chats = data.chats;
 
     
@@ -1397,7 +1480,10 @@ console.log(data);
           onTap: function(e) {
 
            // if(borrar){ $scope.user.pin='';}
-           
+           //window.localStorage.setItem( 'estadoAppTS', 3);
+           //$state.go('app.inicio');
+
+
           }
         }]
       });

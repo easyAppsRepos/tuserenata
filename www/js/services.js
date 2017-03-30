@@ -253,10 +253,28 @@ console.log(reservaObj);
             }, function(response) {
             // something went wrong
                console.log(response);
-            response.data.error = true;
-            return response.data;
+           // response.data.error = true;
+            return response;
             });
         },
+
+
+                confirmarArtista:function(idArtista, idPublicacion){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/confirmarArtista',{idArtista:idArtista, idPublicacion:idPublicacion })
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+           // response.data.error = true;
+            return response;
+            });
+        },
+
+
+        
 
                         verificarInteresados:function(datos){  
 

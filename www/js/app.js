@@ -37,7 +37,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         //alert('Tienes una notificacion: '+data.title);
 
          console.log(data);
-          $rootScope.$broadcast('actualizarInteresados');
+
+         if(data.additionalData.params == '1'){ $rootScope.$broadcast('actualizarInteresados');}
+          if(data.additionalData.params == '2'){ $rootScope.$broadcast('artistaElegido');}
+           if(data.additionalData.params == '3'){ $rootScope.$broadcast('eventoFinalizado');}
+         
          //api.actualizarVista();
 
         });
