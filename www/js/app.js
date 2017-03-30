@@ -7,7 +7,7 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic-material', 'onezone-datepicker', 'ionMdInput', 'ionic-datepicker', 'ionic-timepicker'])
 
 .run(function($ionicPlatform) {
-    $ionicPlatform.ready(function() {
+    $ionicPlatform.ready(function($rootScope) {
 
 
                 //PUSH FUNCIONANDO
