@@ -15,7 +15,7 @@
 <div style='    text-align: center;
     font-size: 19px;
     color: #555;
-    margin-top: 40px;' ng-hide='notificaciones.lenght' > <img style='margin-bottom: 30px' src="img/vacio.png"> <br> No hay notificaciones</div>
+    margin-top: 40px;' ng-show='notificaciones.lenght'  > <img style='margin-bottom: 30px' src="img/vacio.png"> <br> No hay notificaciones</div>
  <div ng-repeat=' n in notificaciones' >
     <a style='border-bottom: solid 1px lightgray' class="item item-avatar" >
       <img ng-src="img/noti{{n.idTipoNotificacion}}.png">

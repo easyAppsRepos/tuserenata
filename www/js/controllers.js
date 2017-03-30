@@ -751,7 +751,8 @@ console.log(idPublicacion);
 
   function verificarEstado(){
 
-      var estado = JSON.parse(window.localStorage.getItem('estadoAppTS'));
+     // var estado = JSON.parse(window.localStorage.getItem('estadoAppTS')) ;
+     var estado = window.localStorage.getItem('estadoAppTS') ;
       if(estado==2){
         console.log('eestado 2');
         $scope.enBusqueda = true;
@@ -994,6 +995,113 @@ function mensajeAlerta(mensaje){
     }
 
     getChats();
+
+
+    //chat control
+
+    //modal
+    function actualizarMensajes(idUser, idArtista){
+      //console.log(idUser);
+     // console.log(idArtista);
+    api.getMensajes(idUser, idArtista).then(function(response){
+
+    $ionicLoading.hide();
+
+    if(response.error==true){
+
+       mensajeAlerta('Ha ocurrido un error');
+
+      }
+    else{
+
+       $scope.mensajesChat=response.mensajes;
+
+    }  
+    });
+
+    }
+
+$scope.enviarMensaje = function(texto){
+
+  console.log(texto);
+
+  if(texto=='undefined' || texto==undefined || texto == ''){}
+  else{
+
+      api.enviarMensaje($scope.idUsuarioEmisor, $scope.idReceptor,texto).then(function(response){
+       // $ionicLoading.hide();
+        if(response.error){
+        mensajeAlerta('Ha ocurrido un error');
+       }
+        else{
+        actualizarMensajes($scope.idUsuarioEmisor, $scope.idArtista);
+        }  
+        });
+  }
+}
+
+
+$scope.abrirChat = function(idArtista){
+
+ $ionicLoading.show();
+
+        var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+        var idUser = userData.idUsuario;
+        $scope.idUsuarioEmisor = idUser;
+        $scope.idReceptor =idArtista;
+
+if(idUser == $scope.idArtista){
+  $ionicLoading.hide();
+  mensajeAlerta('No puedes enviarte mensajes a ti mismo');
+}
+else{
+$scope.openModalChat();
+
+  
+actualizarMensajes(idUser, idArtista);
+
+}
+}
+
+ 
+   $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
+ 
+  $scope.openModalChat= function(animation) {
+    $ionicModal.fromTemplateUrl('chat.html', {
+      scope: $scope,
+      animation: animation
+    }).then(function(modal) {
+
+      $scope.modal = modal;
+      $scope.modal.show();
+
+
+
+     
+    });
+  };
+
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+  //  $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+    //end modal
+
+
+ //chat end
 
 
 })
