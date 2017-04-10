@@ -720,6 +720,7 @@ $state.go('app.profile', { idArtista:idArtista });
         console.log('en artistaElegido');
         $scope.enBusqueda = 3;
         window.localStorage.setItem( 'estadoAppTS', 3);
+       // verificarEstado();
 
       });
 
@@ -731,7 +732,6 @@ $state.go('app.profile', { idArtista:idArtista });
         window.localStorage.setItem( 'estadoAppTS', 1);
 
       });
-
 
 
 $scope.reserva={};
@@ -774,9 +774,11 @@ $state.go('app.profile', { idArtista:idArtista });
         var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
         var idUser = userData.idUsuario;
 
+
         var idPublicacion = JSON.parse(window.localStorage.getItem('idPublicacionAppTS'));
        // var idUser = userData.idUsuario;
 console.log(idPublicacion);
+
 
         
 
@@ -800,6 +802,11 @@ console.log(idPublicacion);
 
    $scope.escogerArtista = function(idArtista, idPublicacion){
 
+
+        var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+        var idUser = userData.idUsuario;
+
+
     console.log(idArtista);
 
         var customTemplate =
@@ -822,11 +829,18 @@ console.log(idPublicacion);
         console.log(idArtista);
        // console.log(id);
 
-        api.confirmarArtista(idArtista, idPublicacion).then(function(response){
+        api.confirmarArtista(idArtista, idPublicacion, idUser).then(function(response){
 
+            console.log(response);
             $ionicLoading.hide();
-            window.localStorage.setItem( 'estadoAppTS', 4);
-            $state.go('app.inicio');
+           // window.localStorage.setItem( 'estadoAppTS', 4);
+           // $state.go('app.inicio');
+
+           if(response.error){
+            mensajeAlerta('No has podido seleccionar este Artista');
+            verificarInteresados();
+          }
+           else{$state.go('app.inicio');}
 
 
         });
@@ -844,29 +858,34 @@ console.log(idPublicacion);
    }
 
   function verificarEstado(){
-
+$ionicLoading.show();
      // var estado = JSON.parse(window.localStorage.getItem('estadoAppTS')) ;
-     var estado = window.localStorage.getItem('estadoAppTS') ;
+     //var estado = window.localStorage.getItem('estadoAppTS') ;
+var estado;
+
+  var userDatas = JSON.parse(window.localStorage.getItem('userInfoTS'));
+     
+        $scope.idU = userDatas.idUsuario;
 
 
- 
+      api.getEstado($scope.idU).then(function(data) {
+        console.log(data);
+     
+      if(!data.error){
+        estado=data.estado;
 
-      if(estado==2){
+              if(estado==2){
         console.log('eestado 2');
         $scope.enBusqueda = 2;
+         $scope.idPublicacion  = data.idPublicacion;
         verificarInteresados();
-
+        $ionicLoading.hide();
       }
 
       else if(estado==3){
         console.log('artista solicitado');
-        $scope.enBusqueda = 3;
-
-      $ionicLoading.show();
-      var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
-      var idUser = userData.idUsuario;
-
-              api.getInfoSerenata(idUser).then(function(data) {
+              $scope.enBusqueda = 3;
+              api.getInfoSerenata($scope.idU).then(function(data) {
 
       $ionicLoading.hide();
       if(!data.error){
@@ -874,6 +893,7 @@ console.log(idPublicacion);
          $scope.infoModal = data.infoSerenata;   
       }
       else{
+          $ionicLoading.hide();
       mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
       }
       });
@@ -881,10 +901,37 @@ console.log(idPublicacion);
 
 
       }
+      else if(estado==4){
+
+        console.log('eestado 4');
+        $scope.enBusqueda = 4;
+       
+        $ionicLoading.hide();
+
+
+      }
 
       else{
         console.log('eestado 1');
-        $scope.enBusqueda = 1;}
+        $scope.enBusqueda = 1;
+          $ionicLoading.hide();
+
+      }
+
+      //  mensajeAlerta('Tu cliente ha sido notificado');    
+      }
+      else{
+        $scope.enBusqueda = 1;
+        estado=1;
+        $ionicLoading.hide();
+
+     // mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      }
+      });
+
+ 
+
+
 
 
   }
@@ -932,6 +979,17 @@ $scope.notificarLlegada = function(){
       });
 }
 
+$scope.abrirMapa = function(){
+
+      $ionicLoading.show();
+if($scope.infoModal.lat !== null && $scope.infoModal.lat !== 'null'){$state.go("app.mapa",{lat: $scope.infoModal.lat, lon: $scope.infoModal.lon });}
+else{mensajeAlerta('El usuario no ha proporcionado ubicacion GPS');}
+
+}
+
+
+
+
 
 $scope.artistasInteresados=function(){
 
@@ -946,10 +1004,31 @@ $scope.cargando=function(){
 
 
 
-$scope.cancelarBusqueda=function(){
+$scope.cancelarBusqueda=function(tipo){
   
-  window.localStorage.setItem( 'estadoAppTS', 1);
+$ionicLoading.show();
+
+        api.cancelarBusqueda($scope.idU, $scope.idPublicacion).then(function(data) {
+
+      $ionicLoading.hide();
+      if(!data.error){
+
 verificarEstado();
+      //  mensajeAlerta('Tu cliente ha sido notificado');    
+      }
+      else{
+      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      }
+      });
+
+
+   // $timeout(function() {
+   //     ionicMaterialMotion.slideUp({
+   //         selector: '.slide-up'
+    //    });
+    //}, 300);
+
+
 
 
 
@@ -970,7 +1049,7 @@ $scope.terminarSerenata = function(){
       if(!data.error){
 
         mensajeAlerta('Enhorabuena, has terminado la serenata'); 
-        window.localStorage.setItem( 'estadoAppTS', 1);
+       // window.localStorage.setItem( 'estadoAppTS', 1);
         verificarEstado();
 
       }
@@ -981,18 +1060,52 @@ $scope.terminarSerenata = function(){
 
 
 }
+$scope.cancelarSerenataUser=function(){
+
+   var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+      var idUser = userData.idUsuario;
+
+
+
+      api.cancelarSerenataUser(idUser).then(function(data) {
+//aplicar sancion
+      $ionicLoading.hide();
+
+      if(!data.error){
+
+        mensajeAlerta('Se ha cancelado la serenata'); 
+     //   window.localStorage.setItem( 'estadoAppTS', 1);
+        verificarEstado();
+
+      }
+      else{
+      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      }
+      });
+
+
+
+
+}
+
+
 
 $scope.cancelarSerenataArtista=function(){
 //console.log($scope.infoModal.idPublicacion);
 
-      api.cancelarSerenata($scope.infoModal.idPublicacion,1).then(function(data) {
+   var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+      var idUser = userData.idUsuario;
+
+
+
+      api.cancelarSerenata($scope.infoModal.idPublicacion,1, $scope.infoModal.idUsuario, idUser).then(function(data) {
 
       $ionicLoading.hide();
 
       if(!data.error){
 
         mensajeAlerta('Se ha cancelado la serenata'); 
-        window.localStorage.setItem( 'estadoAppTS', 1);
+     //   window.localStorage.setItem( 'estadoAppTS', 1);
         verificarEstado();
 
       }
@@ -1047,7 +1160,7 @@ $scope.cancelarSerenataCliente=function(){
            $scope.reserva.direccion == 'undefine' || $scope.reserva.direccion == null || $scope.reserva.direccion == '' || 
             $scope.reserva.telefono == 'undefine' || $scope.reserva.telefono == null || $scope.reserva.telefono == '' || 
              $scope.reserva.motivo == 'undefine' || $scope.reserva.motivo == null || $scope.reserva.motivo == '' 
-           //  || $scope.reserva.genero == 'undefine' || $scope.reserva.genero == null || $scope.reserva.genero == ''   
+             || $scope.reserva.genero == 'undefine' || $scope.reserva.genero == null || $scope.reserva.genero == ''   
               ){
 
 
@@ -1056,22 +1169,31 @@ $scope.cancelarSerenataCliente=function(){
 
       else{
 
-        $scope.reserva.genero = 1;
-
-          var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+  var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
           $scope.reserva.idUsuario = userData.idUsuario;
 
           $ionicLoading.show();
+
+      //gps
+
+        navigator.geolocation.getCurrentPosition(function(pos) {
+
+         console.log(pos.coords.latitude+' Long: '+ pos.coords.longitude);
+              //$scope.map.setZoom(16);
+
+                $scope.reserva.lat = pos.coords.latitude;
+                $scope.reserva.lon = pos.coords.longitude;
+
           api.addLaPlaya($scope.reserva).then(function(data) {
  console.log(data);
-              $ionicLoading.hide();
+            
               if(!data.error){
                
 
-                window.localStorage.setItem( 'estadoAppTS', 2);
+               // window.localStorage.setItem( 'estadoAppTS', 2);
                 window.localStorage.setItem( 'idPublicacionAppTS', data.idPublicacion);
 
-                verificarEstado();
+              
                 
                 $scope.closeModal();
                 var mensaje = 'Reserva exitosa! Dale al boton de Artistas Interesados para ponerte en contacto con los interesados'
@@ -1092,15 +1214,123 @@ $scope.cancelarSerenataCliente=function(){
             }
           }]
         });
-
-
+  $ionicLoading.hide();
+  verificarEstado();
 
 
               }
-              else{
+              else{  $ionicLoading.hide();
                 mensajeAlerta('Ha ocurrido un error');
               }
           });
+
+
+
+        }, function(error) {
+          console.log('Unable to get location: ' + error.message);
+            //ini
+            var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+            $scope.reserva.idUsuario = userData.idUsuario;
+
+
+            $ionicLoading.show();
+
+
+                              $scope.reserva.lat = null;
+                $scope.reserva.lon = null;
+
+
+            api.addLaPlaya($scope.reserva).then(function(data) {
+            console.log(data);
+
+            if(!data.error){
+
+
+            // window.localStorage.setItem( 'estadoAppTS', 2);
+            window.localStorage.setItem( 'idPublicacionAppTS', data.idPublicacion);
+
+
+
+            $scope.closeModal();
+            var mensaje = 'Reserva exitosa! Dale al boton de Artistas Interesados para ponerte en contacto con los interesados'
+            var customTemplate =
+            '<div style="text-align:center;font-family: Ubuntu;"><img style="margin-top:10px" src="img/confirma.png"> <p style="    font-size: 18px;color:#ffc900; margin-top:25px">'+mensaje+'</p> </div>';
+
+            $ionicPopup.show({
+            template: customTemplate,
+            title: '',
+            subTitle: '',
+            buttons: [{
+            text: 'Cerrar',
+            type: 'button-blueCustom',
+            onTap: function(e) {
+
+            // if(borrar){ $scope.user.pin='';}
+
+            }
+            }]
+            });
+            $ionicLoading.hide();
+            verificarEstado();
+
+
+            }
+            else{  $ionicLoading.hide();
+            mensajeAlerta('Ha ocurrido un error');
+            }
+            });
+            //fin
+
+
+        });
+
+
+/*          var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+          $scope.reserva.idUsuario = userData.idUsuario;
+
+          $ionicLoading.show();
+          api.addLaPlaya($scope.reserva).then(function(data) {
+ console.log(data);
+            
+              if(!data.error){
+               
+
+               // window.localStorage.setItem( 'estadoAppTS', 2);
+                window.localStorage.setItem( 'idPublicacionAppTS', data.idPublicacion);
+
+              
+                
+                $scope.closeModal();
+                var mensaje = 'Reserva exitosa! Dale al boton de Artistas Interesados para ponerte en contacto con los interesados'
+                   var customTemplate =
+          '<div style="text-align:center;font-family: Ubuntu;"><img style="margin-top:10px" src="img/confirma.png"> <p style="    font-size: 18px;color:#ffc900; margin-top:25px">'+mensaje+'</p> </div>';
+
+        $ionicPopup.show({
+          template: customTemplate,
+          title: '',
+          subTitle: '',
+          buttons: [{
+            text: 'Cerrar',
+            type: 'button-blueCustom',
+            onTap: function(e) {
+
+             // if(borrar){ $scope.user.pin='';}
+             
+            }
+          }]
+        });
+  $ionicLoading.hide();
+  verificarEstado();
+
+
+              }
+              else{  $ionicLoading.hide();
+                mensajeAlerta('Ha ocurrido un error');
+              }
+          });
+
+*/
+
       }
     }
 
@@ -1139,6 +1369,87 @@ $scope.cancelarSerenataCliente=function(){
 
 })
 
+
+.controller('mensajesCtrl', function($scope, $ionicLoading, serverConfig, $ionicPopup, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
+
+ $scope.$parent.showHeader();
+    $scope.$parent.clearFabs();
+    $scope.isExpanded = false;
+    $scope.$parent.setExpanded(false);
+    $scope.$parent.setHeaderFab(false);
+
+    // Set Motion
+    $timeout(function() {
+        ionicMaterialMotion.slideUp({
+            selector: '.slide-up'
+        });
+    }, 300);
+
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+    function mensajeAlerta(mensaje){
+
+        
+   var customTemplate =
+        '<div style="text-align:center;font-family: Ubuntu;"><img style="margin-top:10px" src="img/excla.png"> <p style="    font-size: 18px;color:#ffc900; margin-top:25px">'+mensaje+'</p> </div>';
+
+      $ionicPopup.show({
+        template: customTemplate,
+        title: '',
+        subTitle: '',
+        buttons: [{
+          text: 'Cerrar',
+          type: 'button-blueCustom',
+          onTap: function(e) {
+
+           // if(borrar){ $scope.user.pin='';}
+           
+          }
+        }]
+      });
+
+}
+
+
+    function getAgenda(){
+
+
+      $ionicLoading.show();
+
+
+        var userData = JSON.parse(window.localStorage.getAgenda('userInfoTS'));
+        var idUser = userData.idUsuario;
+
+      api.getAgenda(idUser).then(function(data) {
+      $ionicLoading.hide();
+      
+      if(!data.error){
+      
+        if(data.agenda.length==0){$scope.mensajesCero = true;}
+
+        else{$scope.mensajesCero = false;}
+      console.log(data.chats.length);
+      $scope.eventos = data.agenda;
+
+    
+      }
+      else{
+         if(data.agenda.length==0){$scope.mensajesCero = true;}
+      //mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      }
+      });
+
+    }
+
+    getAgenda();
+
+
+
+})
 
 .controller('mensajesCtrl', function($scope, $ionicLoading, serverConfig, $ionicPopup, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
 
@@ -1203,7 +1514,7 @@ function mensajeAlerta(mensaje){
       $ionicLoading.hide();
       
       if(!data.error){
-
+      
         if(data.chats.length==0){$scope.mensajesCero = true;}
         else{$scope.mensajesCero = false;}
       console.log(data.chats.length);
@@ -1212,6 +1523,7 @@ function mensajeAlerta(mensaje){
     
       }
       else{
+         if(data.chats.length==0){$scope.mensajesCero = true;}
       //mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
       }
       });
@@ -1466,7 +1778,7 @@ $scope.evaluacion={};
 
 })
 
-.controller('laPlayaCtrl', function($scope, $rootScope, $ionicPopup, $ionicLoading, api, $state, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
+.controller('laPlayaCtrl', function($scope, $rootScope, $ionicPopup, $ionicNavBarDelegate, $ionicLoading, api, $state, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
 $scope.publicaciones=[];
 $scope.infoModal={};
   $scope.$parent.showHeader();
@@ -1490,7 +1802,7 @@ $scope.infoModal={};
 
 
 
-
+ $ionicNavBarDelegate.showBar(true);
     // Set Ink
     ionicMaterialInk.displayEffect();
 
@@ -1544,6 +1856,24 @@ $scope.infoModal={};
     }
 
     getPublicaciones();
+
+    $scope.validarPost = function(listaIntere){
+ var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+        var idUser = userData.idUsuario;
+
+        if(listaIntere == null || listaIntere == 'null'){return false}
+      var myStringArray = listaIntere.split(",");
+        var arrayLength = myStringArray.length;
+        for (var i = 0; i < arrayLength; i++) {
+            if(listaIntere[i] == idUser){ return true;}
+           
+            //Do something
+        }
+
+         return false; 
+    }
+
+
 
     $scope.getCat=function(categoria){
 
@@ -1639,6 +1969,57 @@ console.log(date);
 
   }
 
+ $scope.cancelarPostularme = function(idPublicacion){
+
+    var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+    var idUser = userData.idUsuario;
+    var arrayDatos = {idArtista:idUser, idPublicacion: idPublicacion};
+
+
+            api.cancelarPostularme(arrayDatos).then(function(data) {
+console.log(data);
+      $ionicLoading.hide();
+      
+      if(!data.error){
+
+
+        $scope.closeModal();
+
+        var mensaje = 'Has cancelado tu interes por participar'
+        var customTemplate =
+        '<div style="text-align:center;font-family: Ubuntu;"><img style="margin-top:10px" src="img/confirma.png"> <p style="    font-size: 18px;color:#ffc900; margin-top:25px">'+mensaje+'</p> </div>';
+
+      $ionicPopup.show({
+        template: customTemplate,
+        title: '',
+        subTitle: '',
+        buttons: [{
+          text: 'Cerrar',
+          type: 'button-blueCustom',
+          onTap: function(e) {
+            getPublicaciones();
+           // if(borrar){ $scope.user.pin='';}
+           //window.localStorage.setItem( 'estadoAppTS', 3);
+           //$state.go('app.inicio');
+
+
+          }
+        }]
+      });
+     // $state.go('app.inicio', null, {reload: true});
+    
+      }
+      else{
+      mensajeAlerta('No ha sido posible cancelar');
+      }
+      });
+
+
+
+ }
+
+
+
   $scope.postularme = function(idPublicacion, idUsuarioPropone){
 $ionicLoading.show();
  
@@ -1671,16 +2052,16 @@ console.log(data);
            // if(borrar){ $scope.user.pin='';}
            //window.localStorage.setItem( 'estadoAppTS', 3);
            //$state.go('app.inicio');
-
+           getPublicaciones();
 
           }
         }]
       });
-
+     // $state.go('app.inicio', null, {reload: true});
     
       }
       else{
-      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      mensajeAlerta('No ha sido posible postularse');
       }
       });
 
@@ -1690,7 +2071,414 @@ console.log(data);
 })
 
 
-.controller('FriendsCtrl', function($scope, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
+
+
+.controller('mapaCtrl', function($scope, $ionicPopup, $compile, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicLoading, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
+
+
+ 
+    // Set Header
+    $scope.$parent.showHeader();
+    $scope.$parent.clearFabs();
+    $scope.isExpanded = false;
+    $scope.$parent.setExpanded(false);
+    $scope.$parent.setHeaderFab(false);
+
+    // Set Motion
+    $timeout(function() {
+        ionicMaterialMotion.slideUp({
+            selector: '.slide-up'
+        });
+    }, 300);
+
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+    // Set Ink
+    ionicMaterialInk.displayEffect();
+       $ionicSideMenuDelegate.canDragContent(false);
+/*
+    $scope.$on('$ionicView.enter', function(e) {
+
+   
+    $ionicNavBarDelegate.showBar(true);
+      
+    });*/
+
+    //map
+      $scope.lat = $stateParams.lat;
+        $scope.lon = $stateParams.lon;
+
+
+      function initialize() {
+
+        var myLatlng = new google.maps.LatLng(10.0142238,-84.2153251);
+        var myLatlng2 = new google.maps.LatLng($scope.lat,$scope.lon);
+
+        console.log(myLatlng);
+        var mapOptions = {
+          center: myLatlng,
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map"),
+            mapOptions);
+
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRequest = {
+        origin: myLatlng,
+        destination: myLatlng2,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING,
+        unitSystem: google.maps.UnitSystem.METRIC
+        };
+
+
+      directionsService.route(
+        directionsRequest,
+        function(response, status)
+        {
+          if (status == google.maps.DirectionsStatus.OK)
+          {
+            new google.maps.DirectionsRenderer({
+              map: map,
+              directions: response
+            });
+             $scope.centerOnMe();
+          }
+          else
+            console.log("Unable to retrieve your route<br />");
+        }
+      );
+
+
+
+        
+        //Marker + infowindow + angularjs compiled ng-click
+        var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
+        var compiled = $compile(contentString)($scope);
+
+        var infowindow = new google.maps.InfoWindow({
+          content: compiled[0]
+        });
+
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          title: 'Floristeria Rosa'
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.open(map,marker);
+        });
+
+        $scope.map = map;
+      }
+      //google.maps.event.addDomListener(window, 'load', initialize);
+      initialize();
+      $scope.centerOnMe = function() {
+        if(!$scope.map) {
+          return;
+        }
+
+        $scope.loading = $ionicLoading.show({
+          content: 'Getting current location...',
+          showBackdrop: false
+        });
+
+        navigator.geolocation.getCurrentPosition(function(pos) {
+          $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+              $scope.map.setZoom(16);
+          $scope.loading.hide();
+        }, function(error) {
+          alert('Unable to get location: ' + error.message);
+        });
+      };
+      
+      $scope.clickTest = function() {
+        alert('Example of infowindow with ng-click')
+      };
+
+    //endMAp
+
+
+})
+
+
+.controller('anunciosCtrl', function($scope, $ionicPopup, $state, $ionicNavBarDelegate, $ionicLoading, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
+ 
+    // Set Header
+    $scope.$parent.showHeader();
+    $scope.$parent.clearFabs();
+    $scope.isExpanded = false;
+    $scope.$parent.setExpanded(false);
+    $scope.$parent.setHeaderFab(false);
+
+    // Set Motion
+    $timeout(function() {
+        ionicMaterialMotion.slideUp({
+            selector: '.slide-up'
+        });
+    }, 300);
+
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+    // Set Ink
+    ionicMaterialInk.displayEffect();
+
+    $scope.$on('$ionicView.enter', function(e) {
+
+   
+    $ionicNavBarDelegate.showBar(true);
+      
+    });
+$scope.anuncio={};
+
+function getAnunucios(){
+
+          
+                var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+                var idUser = userData.idUsuario;
+
+        api.getAnuncios(idUser).then(function(data) {
+$ionicLoading.show();
+     
+      if(!data.error){
+
+       console.log(data);
+       $scope.anuncios = data.eventos;
+        $ionicLoading.hide();
+      }
+      else{
+         $ionicLoading.hide();
+        mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      //$state.go('app.inicio');
+      }
+      });
+
+
+}
+
+getAnunucios();
+    $scope.agregarAnuncio = function(){
+
+
+   if($scope.anuncio.nombre == 'undefined' || $scope.anuncio.nombre == null || $scope.anuncio.nombre == '' ||
+        $scope.anuncio.valor == 'undefined' || $scope.anuncio.valor == null || $scope.anuncio.valor == '' ||
+         $scope.anuncio.tipo == 'undefined' || $scope.anuncio.tipo == null || $scope.anuncio.tipo == '' ||
+                 $scope.anuncio.telefono == 'undefined' || $scope.anuncio.telefono == null || $scope.anuncio.telefono == ''){
+
+
+        mensajeAlerta('Debes rellenar todos los campos');
+      }
+
+ else{
+       $ionicLoading.show();
+        navigator.geolocation.getCurrentPosition(function(pos) {
+         console.log(pos.coords.latitude+' Long: '+ pos.coords.longitude);
+              //$scope.map.setZoom(16);
+       
+
+
+
+                
+                var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+                var idUser = userData.idUsuario;
+
+
+                $scope.anuncio.idUsuario =  idUser;
+                $scope.anuncio.lat = pos.coords.latitude;
+                $scope.anuncio.lon = pos.coords.longitude;
+
+                  console.log($scope.anuncio);
+                api.agregarAnuncio($scope.anuncio).then(function(data) {
+
+                    if(!data.error){
+
+                    $ionicLoading.hide();
+                    console.log(data);
+                    mensajeAlerta('Tu anuncio ha sido agregado');
+                    $state.go('app.inicio');
+                    
+                    }
+                    else{
+                    $ionicLoading.hide();
+                     mensajeAlerta('Ha ocurrido un error');
+                    //$state.go('app.inicio');
+                    }
+                });
+
+
+        }, function(error) {
+         mensajeAlerta('Debes activar el GPS para publicar un anuncio');
+
+        });
+
+
+    }
+      //
+
+    }
+  function mensajeAlerta(mensaje){
+
+        
+   var customTemplate =
+        '<div style="text-align:center;font-family: Ubuntu;"><img style="margin-top:10px" src="img/excla.png"> <p style="    font-size: 18px;color:#ffc900; margin-top:25px">'+mensaje+'</p> </div>';
+
+      $ionicPopup.show({
+        template: customTemplate,
+        title: '',
+        subTitle: '',
+        buttons: [{
+          text: 'Cerrar',
+          type: 'button-blueCustom',
+          onTap: function(e) {
+
+           // if(borrar){ $scope.user.pin='';}
+           
+          }
+        }]
+      });
+
+}
+
+
+
+})
+
+
+.controller('puntosCtrl', function($scope, $ionicPopup, $state, $ionicNavBarDelegate, $ionicLoading, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
+ 
+    // Set Header
+    $scope.$parent.showHeader();
+    $scope.$parent.clearFabs();
+    $scope.isExpanded = false;
+    $scope.$parent.setExpanded(false);
+    $scope.$parent.setHeaderFab(false);
+
+    // Set Motion
+    $timeout(function() {
+        ionicMaterialMotion.slideUp({
+            selector: '.slide-up'
+        });
+    }, 300);
+
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+    // Set Ink
+    ionicMaterialInk.displayEffect();
+
+    $scope.$on('$ionicView.enter', function(e) {
+
+   
+    $ionicNavBarDelegate.showBar(true);
+      
+    });
+
+    $scope.dat={};
+    function getPuntos(){
+
+      $ionicLoading.show();
+
+          var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+    var idUser = userData.idUsuario;
+
+
+      api.getPuntos(idUser).then(function(data) {
+
+     
+      if(!data.error){
+
+       console.log(data);
+       $scope.puntosUser = data.puntos;
+        $ionicLoading.hide();
+      }
+      else{
+         $ionicLoading.hide();
+        mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      //$state.go('app.inicio');
+      }
+      });
+
+    }
+getPuntos();
+
+
+  function mensajeAlerta(mensaje){
+
+        
+   var customTemplate =
+        '<div style="text-align:center;font-family: Ubuntu;"><img style="margin-top:10px" src="img/excla.png"> <p style="    font-size: 18px;color:#ffc900; margin-top:25px">'+mensaje+'</p> </div>';
+
+      $ionicPopup.show({
+        template: customTemplate,
+        title: '',
+        subTitle: '',
+        buttons: [{
+          text: 'Cerrar',
+          type: 'button-blueCustom',
+          onTap: function(e) {
+
+           // if(borrar){ $scope.user.pin='';}
+           
+          }
+        }]
+      });
+
+}
+
+
+      $scope.activarCodigo = function(){
+
+      if($scope.dat.codigo == 'undefine' || $scope.dat.codigo == null || $scope.dat.codigo == ''){
+
+
+        mensajeAlerta('Debes rellenar todos los campos');
+      }
+
+ else{  
+  console.log($scope.dat.codigo);
+
+
+          var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+    var idUser = userData.idUsuario;
+
+
+
+        api.activarCodigo(idUser, $scope.dat.codigo).then(function(data) {
+
+      $ionicLoading.hide();
+      if(!data.error){
+       console.log(data);
+       mensajeAlerta('Tus puntos han sido acreditados! Gracias por utilizar nuestro servicio');
+       getPuntos();
+
+      }
+      else{
+        mensajeAlerta('Codigo Invalido');
+      }
+      });
+
+
+
+}
+
+      
+
+      }
+
+ })
+.controller('FriendsCtrl', function($scope, $ionicPopup, $state, $ionicNavBarDelegate, $ionicLoading, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
     // Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -1717,8 +2505,72 @@ $scope.disableSwipe = function() {
    $ionicSlideBoxDelegate.enableSlide(false);
 };
 
-//borrarlater
 
+    $scope.$on('$ionicView.enter', function(e) {
+
+   
+    $ionicNavBarDelegate.showBar(true);
+      
+    });
+
+         $scope.cont_dia= new Array(7);
+  $scope.cont_dia[0]= 0;
+  $scope.cont_dia[1]= 0;
+  $scope.cont_dia[2]= 0;
+  $scope.cont_dia[3]= 0;
+  $scope.cont_dia[4]= 0;
+  $scope.cont_dia[5]= 0;
+  $scope.cont_dia[6]= 0;
+
+
+    function getEventosArtista(){
+
+      $ionicLoading.show();
+
+          var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+    var idUser = userData.idUsuario;
+
+
+      api.getEventosAgendados(idUser, 1).then(function(data) {
+
+      $ionicLoading.hide();
+      if(!data.error){
+
+       console.log(data);
+
+        
+
+        for (var i = 0; i <7; i++) {
+
+            console.log($scope.obt_fecha_dia2(i));
+
+            for (var j = 0; j <data.eventos.length; j++) {
+
+                if(data.eventos[j].fecha == $scope.obt_fecha_dia2(i)){
+
+                $scope.cont_dia[i]=$scope.cont_dia[i]+1 ;
+                
+                }
+
+            }
+
+
+        }
+
+
+       $scope.eventos=data.eventos;
+console.log($scope.cont_dia)
+      }
+      else{
+        mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      //$state.go('app.inicio');
+      }
+      });
+
+    }
+getEventosArtista();
+//borrarlater
+/*
 
 $scope.reservasActivas = [{apellido:"Toro",
 codigo:1486928895,
@@ -1767,20 +2619,13 @@ numero_personas:8,
 telefono:"678569959",
 updated_at:"-0001-11-30 00:00:00",
 zona:"Medellin"}]
-//endsborrarlater
+//endsborrarlater*/
 
 $scope.evento={};
 $scope.tipoReservas = 'semana';
 
 
-         $scope.cont_dia= new Array(7);
-  $scope.cont_dia[0]= 0;
-  $scope.cont_dia[1]= 0;
-  $scope.cont_dia[2]= 0;
-  $scope.cont_dia[3]= 0;
-  $scope.cont_dia[4]= 0;
-  $scope.cont_dia[5]= 0;
-  $scope.cont_dia[6]= 0;
+
   $scope.fecha= new Date();
   $scope.fecha_m= new Date();
 
@@ -1801,10 +2646,88 @@ $scope.tipoReservas = 'semana';
     hideCancelButton: true,
     hideSetButton: false,
     highlights: [],
+
     callback: function(value){
-    $scope.change_view(value,true);
+      console.log(value);
+      $scope.obt_fecha_di3(value);
+    //$scope.change_view(value,true);
     }
 };
+
+$scope.confirmarEvento = function(idEvento){
+    $ionicLoading.show();
+
+    api.confirmarEvento(idEvento).then(function(response){
+
+    $ionicLoading.hide();
+
+    if(response.error==true){
+
+       mensajeAlerta('Ha ocurrido un error');
+
+      }
+    else{
+
+       mensajeAlerta('Has confirmado correctamente el evento');
+       $state.reload();
+
+    }  
+    });
+
+}
+
+
+
+  function mensajeAlerta(mensaje){
+
+        
+   var customTemplate =
+        '<div style="text-align:center;font-family: Ubuntu;"><img style="margin-top:10px" src="img/excla.png"> <p style="    font-size: 18px;color:#ffc900; margin-top:25px">'+mensaje+'</p> </div>';
+
+      $ionicPopup.show({
+        template: customTemplate,
+        title: '',
+        subTitle: '',
+        buttons: [{
+          text: 'Cerrar',
+          type: 'button-blueCustom',
+          onTap: function(e) {
+
+           // if(borrar){ $scope.user.pin='';}
+           
+          }
+        }]
+      });
+
+}
+
+
+
+
+
+$scope.cancelarEvento = function(idEvento){
+
+    $ionicLoading.show();
+
+    api.cancelarEvento(idEvento).then(function(response){
+
+    $ionicLoading.hide();
+
+    if(response.error==true){
+
+       mensajeAlerta('Ha ocurrido un error');
+
+      }
+    else{
+
+       mensajeAlerta('Has cancelado la reservacion');
+       $state.reload();
+
+    }  
+    });
+  
+}
+
 
 
   $scope.Dia_icon= function(){
@@ -1827,14 +2750,72 @@ $scope.tipoReservas = 'semana';
     }
   }
 
+  $scope.obt_fecha_dia2 = function(i) {
+    var day_r= $scope.fecha.getDay();
+    var date= new Date();
+    date.setDate($scope.fecha.getDate()+(i-day_r));
+    $scope.fecha_m=date;
+    var date = $scope.fecha_m;
+   var ret = ("0" + (date.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date.getDate().toString()).substr(-2)  + "/" + (date.getFullYear().toString()).substr(2);
+    console.log(ret);
+    return ret;
 
+  }
   
+
+
+  $scope.obt_fecha_di3 = function(fecha) {
+    $scope.eventosDia = [];
+ //   var day_r= $scope.fecha.getDay();
+    var date= fecha;
+     $scope.fecha_m=date;
+    var fechaStr = ("0" + (date.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date.getDate().toString()).substr(-2)  + "/" + (date.getFullYear().toString()).substr(2);
+     // $scope.fechaComp=  datestring;
+
+    
+      var arrayLength = $scope.eventos.length;
+
+      for (var i = 0; i < arrayLength; i++) {
+        console.log($scope.eventos[i].fecha);
+          if($scope.eventos[i].fecha == fechaStr){
+             console.log('TRUE');
+            $scope.eventosDia.push($scope.eventos[i]);
+
+          }
+          
+      }
+
+   // console.log($scope.fechaComp);
+    $scope.nextSlide();
+  }
+
+
   $scope.obt_fecha_dia = function(i) {
+    $scope.eventosDia = [];
     var day_r= $scope.fecha.getDay();
     var date= new Date();
     date.setDate($scope.fecha.getDate()+(i-day_r));
     $scope.fecha_m=date;
     $scope.diaActual=i;
+
+     var date = $scope.fecha_m;
+      $scope.fechaComp = ("0" + (date.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date.getDate().toString()).substr(-2)  + "/" + (date.getFullYear().toString()).substr(2);
+     // $scope.fechaComp=  datestring;
+
+    
+      var arrayLength = $scope.eventos.length;
+      for (var i = 0; i < arrayLength; i++) {
+        console.log($scope.eventos[i].fecha);
+          if($scope.eventos[i].fecha == $scope.fechaComp){
+             console.log('TRUE');
+            $scope.eventosDia.push($scope.eventos[i]);
+
+          }
+          
+      }
+
+    console.log($scope.fechaComp);
+    $scope.nextSlide();
   }
 
 
@@ -1900,21 +2881,67 @@ $scope.tipoReservas = 'semana';
 
 
 
-$scope.agregarEvento  = function(){
+    $scope.agregarEvento=function(){
 
-    console.log('sada');
+
+
+   var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+        var idUser = userData.idUsuario;
+   console.log($scope.evento);
+
+      if($scope.evento.nombre == 'undefine' || $scope.evento.nombre == null || $scope.evento.nombre == '' ||
+        $scope.evento.hora == 'undefine' || $scope.evento.hora == null || $scope.evento.hora == '' ||
+         $scope.evento.lugar == 'undefine' || $scope.evento.lugar == null || $scope.evento.lugar == '' ||
+                 $scope.evento.telefono == 'undefine' || $scope.evento.telefono == null || $scope.evento.telefono == '' ||
+        $scope.evento.fecha == 'undefine' || $scope.evento.fecha == null || $scope.evento.fecha == '' ){
+
+
+        mensajeAlerta('Debes rellenar todos los campos');
+      }
+
+ else{
+      $ionicLoading.show();
+
+      $scope.evento.idArtista = idUser;
+      $scope.evento.idUsuario = 0;
+            $scope.evento.lat = null;
+                $scope.evento.lon = null;
+
+      api.agendarEvento($scope.evento).then(function(data) {
+     
+       $ionicLoading.hide();
+      if(!data.error){
+
+        mensajeAlerta('Tu serenata ha sido programada');
+        $scope.evento={};
+             $state.reload();
+        //getEventosAgendados();
+
+      }
+      else{
+      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      //$state.go('app.inicio');
+      }
+      });
 }
 
 
 
+    }
+
 
     //calendario
-
   var ipObj1 = {
       callback: function (val) {  //Mandatory
         console.log('Return value from the datepicker popup is : ' + val, new Date(val));
-        $scope.evento.fecha= new Date(val);
-      },
+          $scope.evento.fecha=  new Date(val);
+        var date=$scope.evento.fecha;
+     
+       var datestring = ("0" + (date.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date.getDate().toString()).substr(-2)  + "/" + (date.getFullYear().toString()).substr(2);
+      console.log(datestring);
+      $scope.evento.fechaString=  datestring;
+    //  $scope.evento.id=("" + (date.getMonth() + 1).toString()).substr(-2) + "" + (date.getDate().toString()).substr(-2)  + "" + (date.getFullYear().toString()).substr(2);
+     },
       disabledDates: [            //Optional
         new Date(2016, 2, 16),
         new Date(2015, 3, 16),
@@ -1932,7 +2959,6 @@ $scope.agregarEvento  = function(){
       closeOnSelect: false,       //Optional
       templateType: 'popup'       //Optional
     };
-
     $scope.openDatePicker = function(){
       ionicDatePicker.openDatePicker(ipObj1);
     };
@@ -1950,6 +2976,10 @@ $scope.agregarEvento  = function(){
       } else {
         var selectedTime = new Date(val * 1000);
        $scope.evento.hora=(selectedTime.getUTCHours()+ 'H :'+ selectedTime.getUTCMinutes()+ 'M');
+       $scope.evento.horaNum=selectedTime.getUTCHours();
+       $scope.evento.minutosNum=selectedTime.getUTCMinutes();
+
+       console.log($scope.evento.hora);
       }
     },
     inputTime: 50400,   //Optional
@@ -2006,6 +3036,261 @@ $scope.agregarEvento  = function(){
 
 })
 
+
+
+
+.controller('contratarCtrl', function($scope, $state, $ionicNavBarDelegate, ionicDatePicker, ionicTimePicker, $stateParams, $sce, $ionicModal, $timeout, $ionicPopup, $ionicLoading, api, serverConfig, ionicMaterialMotion, $ionicSideMenuDelegate, ionicMaterialInk) {
+   
+     $scope.$parent.showHeader();
+    $scope.$parent.clearFabs();
+    $scope.isExpanded = false;
+    $scope.$parent.setExpanded(false);
+    $scope.$parent.setHeaderFab(false);
+$ionicSideMenuDelegate.canDragContent(false);
+    // Set Motion
+    $timeout(function() {
+        ionicMaterialMotion.slideUp({
+            selector: '.slide-up'
+        });
+    }, 300);
+
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+ $scope.idArtista = $stateParams.idArtista;
+$scope.evento={};
+    $scope.$on('$ionicView.enter', function(e) {
+
+   
+    $ionicNavBarDelegate.showBar(true);
+      
+    });
+
+    function getEventosAgendados(){
+$ionicLoading.show();
+            api.getEventosAgendados($scope.idArtista, 0).then(function(data) {
+     
+       $ionicLoading.hide();
+      if(!data.error){
+
+        console.log(data);
+        $scope.eventos=data.eventos;
+      }
+      else{
+      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      //$state.go('app.inicio');
+      }
+      });
+
+    }
+getEventosAgendados();
+ function mensajeAlerta(mensaje){
+
+        
+   var customTemplate =
+        '<div style="text-align:center;font-family: Ubuntu;"><img style="margin-top:10px" src="img/excla.png"> <p style="    font-size: 18px;color:#ffc900; margin-top:25px">'+mensaje+'</p> </div>';
+
+      $ionicPopup.show({
+        template: customTemplate,
+        title: '',
+        subTitle: '',
+        buttons: [{
+          text: 'Cerrar',
+          type: 'button-blueCustom',
+          onTap: function(e) {
+
+           // if(borrar){ $scope.user.pin='';}
+           
+          }
+        }]
+      });
+
+}
+
+
+
+    $scope.agregarEvento=function(){
+
+
+
+
+   var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+        var idUser = userData.idUsuario;
+   
+
+      if($scope.evento.nombre == 'undefine' || $scope.evento.nombre == null || $scope.evento.nombre == '' ||
+        $scope.evento.hora == 'undefine' || $scope.evento.hora == null || $scope.evento.hora == '' ||
+         $scope.evento.lugar == 'undefine' || $scope.evento.lugar == null || $scope.evento.lugar == '' ||
+                 $scope.evento.telefono == 'undefine' || $scope.evento.telefono == null || $scope.evento.telefono == '' ||
+        $scope.evento.fecha == 'undefine' || $scope.evento.fecha == null || $scope.evento.fecha == '' ){
+
+
+        mensajeAlerta('Debes rellenar todos los campos');
+      }
+
+ else{
+      $ionicLoading.show();
+
+      //gps
+
+        navigator.geolocation.getCurrentPosition(function(pos) {
+         console.log(pos.coords.latitude+' Long: '+ pos.coords.longitude);
+              //$scope.map.setZoom(16);
+                $scope.evento.idArtista = $scope.idArtista;
+                $scope.evento.idUsuario = idUser;
+
+                $scope.evento.lat = pos.coords.latitude;
+                $scope.evento.lon = pos.coords.longitude;
+
+                console.log($scope.evento);
+                api.agendarEvento($scope.evento).then(function(data) {
+
+                $ionicLoading.hide();
+                if(!data.error){
+
+                mensajeAlerta('Tu serenata ha sido programada');
+                $scope.evento={};
+                getEventosAgendados();
+
+                }
+                else{
+                mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+                //$state.go('app.inicio');
+                }
+                });
+
+
+        }, function(error) {
+          console.log('Unable to get location: ' + error.message);
+                scope.evento.idArtista = $scope.idArtista;
+                $scope.evento.idUsuario = idUser;
+
+                $scope.evento.lat = null;
+                $scope.evento.lon = null;
+
+                console.log($scope.evento);
+                api.agendarEvento($scope.evento).then(function(data) {
+
+                $ionicLoading.hide();
+                if(!data.error){
+
+                mensajeAlerta('Tu serenata ha sido programada');
+                $scope.evento={};
+                getEventosAgendados();
+
+                }
+                else{
+                mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+                //$state.go('app.inicio');
+                }
+                });
+
+
+        });
+
+      //coordes
+/*
+      $scope.evento.idArtista = $scope.idArtista;
+      $scope.evento.idUsuario = idUser;
+     console.log($scope.evento);
+      api.agendarEvento($scope.evento).then(function(data) {
+     
+       $ionicLoading.hide();
+      if(!data.error){
+
+        mensajeAlerta('Tu serenata ha sido programada');
+        $scope.evento={};
+        getEventosAgendados();
+
+      }
+      else{
+      mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      //$state.go('app.inicio');
+      }
+      });
+      */
+}
+
+
+
+    }
+    //calendario
+
+  var ipObj1 = {
+      callback: function (val) {  //Mandatory
+        console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+          $scope.evento.fecha=  new Date(val);
+        var date=$scope.evento.fecha;
+     
+       var datestring = ("0" + (date.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date.getDate().toString()).substr(-2)  + "/" + (date.getFullYear().toString()).substr(2);
+      console.log(datestring);
+      $scope.evento.fechaString=  datestring;
+    //  $scope.evento.id=("" + (date.getMonth() + 1).toString()).substr(-2) + "" + (date.getDate().toString()).substr(-2)  + "" + (date.getFullYear().toString()).substr(2);
+     },
+      disabledDates: [            //Optional
+        new Date(2016, 2, 16),
+        new Date(2015, 3, 16),
+        new Date(2015, 4, 16),
+        new Date(2015, 5, 16),
+        new Date('Wednesday, August 12, 2015'),
+        new Date("08-16-2016"),
+        new Date(1439676000000)
+      ],
+      from: new Date(2017, 1, 1), //Optional
+      to: new Date(2017, 11, 31), //Optional
+      inputDate: new Date(),      //Optional
+      mondayFirst: true,          //Optional
+      //disableWeekdays: [0],       //Optional
+      closeOnSelect: false,       //Optional
+      templateType: 'popup'       //Optional
+    };
+
+    $scope.openDatePicker = function(){
+      ionicDatePicker.openDatePicker(ipObj1);
+    };
+ 
+
+    //calendario end/
+
+
+    //hora
+
+  var ipTObj1 = {
+    callback: function (val) {      //Mandatory
+      if (typeof (val) === 'undefined') {
+        console.log('Time not selected');
+      } else {
+        var selectedTime = new Date(val * 1000);
+       $scope.evento.hora=(selectedTime.getUTCHours()+ 'H :'+ selectedTime.getUTCMinutes()+ 'M');
+       $scope.evento.horaNum=selectedTime.getUTCHours();
+       $scope.evento.minutosNum=selectedTime.getUTCMinutes();
+
+       console.log($scope.evento.hora);
+      }
+    },
+    inputTime: 50400,   //Optional
+    format: 12,         //Optional
+    step: 15,           //Optional
+    setLabel: 'Ok'    //Optional
+  };
+
+    $scope.openTimePicker = function(){
+      ionicTimePicker.openTimePicker(ipTObj1);
+    };
+ 
+
+  
+
+
+    //horaend
+
+
+
+
+})
 .controller('ProfileArtistaCtrl', function($scope, $state, $ionicNavBarDelegate, $stateParams, $sce, $ionicModal, $timeout, $ionicPopup, $ionicLoading, api, serverConfig, ionicMaterialMotion, $ionicSideMenuDelegate, ionicMaterialInk) {
 
      $scope.$parent.showHeader();
@@ -2256,7 +3541,7 @@ var ft = new FileTransfer();
 
 })
 
-.controller('ProfileCtrl', function($scope, $stateParams, $sce, $ionicModal, $timeout, $ionicPopup, $ionicLoading, api, serverConfig, ionicMaterialMotion, $ionicSideMenuDelegate, ionicMaterialInk) {
+.controller('ProfileCtrl', function($scope, $state, $stateParams, $sce, $ionicModal, $timeout, $ionicPopup, $ionicLoading, api, serverConfig, ionicMaterialMotion, $ionicSideMenuDelegate, ionicMaterialInk) {
     // Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -2339,6 +3624,36 @@ $scope.abrirFace = function(){
 
 
  }
+
+
+$scope.apuntarse = function(){
+
+$state.go('app.contratar', { idArtista:$stateParams.idArtista });
+  //  $ionicLoading.show();
+
+    //    var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+      //  var idUser = userData.idUsuario;
+
+
+
+/*
+    api.agendarSerenata($stateParams.idArtista,).then(function(data) {
+    $ionicLoading.hide();
+
+    if(!data.error){
+
+    console.log(data);
+    $scope.infoPerfil = data.infoPerfil;
+    $scope.comentarios = data.comentarios;
+    }
+    else{
+    mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+    }
+    });*/
+
+}
+
+
 
 
     $scope.getCat=function(categoria){

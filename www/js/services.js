@@ -55,8 +55,101 @@ console.log(reservaObj);
             });
         },
 
+                cancelarBusqueda:function(idUser, idPublicacion){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/cancelarBusqueda',{idPublicacion:idPublicacion,idUsuario:idUser})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+            response.data.error = true;
+            return response.data;
+            });
+        },
+
+
+        getEstado:function(idUser){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getEstado',{idUsuario:idUser})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+            response.data.error = true;
+            return response.data;
+            });
+        },
+
+
+        getPuntos:function(idUser){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getPuntos',{idUsuario:idUser})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+            response.data.error = true;
+            return response.data;
+            });
+        },
+
+                activarCodigo:function(idUser, codigo){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/activarCodigo',{idUsuario:idUser, codigo:codigo})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+            response.data.error = true;
+            return response.data;
+            });
+        },
+
+
+                cancelarSerenataUser:function(idUser){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/cancelarSerenataUser',{idUsuario:idUser})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+            response.data.error = true;
+            return response.data;
+            });
+        },
+
+
         getNotificaciones:function(data){
             return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getNotificaciones',{idUsuario: data})
+            .then(function(response) {
+
+                console.log(response);
+
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+          //  response.data.error = true;
+            var ew = {};
+            ew.error=true;
+            return ew;
+            });
+        },
+
+
+
+        agregarAnuncio:function(data){
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/agregarAnuncio',data)
             .then(function(response) {
 
                 console.log(response);
@@ -183,9 +276,9 @@ console.log(reservaObj);
         },
 
 
-            cancelarSerenata:function(id,tipo){  
+            cancelarSerenata:function(id,tipo,idUsuario,idUsuarioArtista){  
 
-            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/cancelarSerenata',{idPublicacion:id, tipo:tipo})
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/cancelarSerenata',{idPublicacion:id, tipo:tipo, idUsuario:idUsuario, idUsuarioArtista:idUsuarioArtista })
             .then(function(response) {
                 console.log(response);
             return response.data;
@@ -316,7 +409,22 @@ console.log(reservaObj);
         },
 
 
-        
+     
+            cancelarPostularme:function(datos){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/cancelarPostularme',datos)
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+           // response.data.error = true;
+            return response;
+            });
+        },
+
+
 
                 postularArtista:function(datos){  
 
@@ -333,9 +441,9 @@ console.log(reservaObj);
         },
 
 
-                confirmarArtista:function(idArtista, idPublicacion){  
+                confirmarArtista:function(idArtista, idPublicacion,idUsuario){  
 
-            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/confirmarArtista',{idArtista:idArtista, idPublicacion:idPublicacion })
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/confirmarArtista',{idArtista:idArtista, idPublicacion:idPublicacion, idUsuario:idUsuario })
             .then(function(response) {
                 console.log(response);
             return response.data;
@@ -364,9 +472,87 @@ console.log(reservaObj);
             });
         },
 
+            confirmarEvento:function(idEvento){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/confirmarEvento',{idEvento : idEvento})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+            response.data.error = true;
+            return response.data;
+            });
+        },
+
+
+            cancelarEvento:function(idEvento){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/cancelarEvento',{idEvento : idEvento})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+            response.data.error = true;
+            return response.data;
+            });
+        },
+
+
+
+
+
+            getEventosAgendados:function(idArtista,tipo){
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getEventosAgendados',{idArtista : idArtista, tipo:tipo})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+          //  response.data.error = true;
+            var ew = {};
+            ew.error=true;
+            return ew;
+            });
+        },
+
+
+            getAnuncios:function(idUsuario){
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getAnuncios',{idUsuario : idUsuario})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+          //  response.data.error = true;
+            var ew = {};
+            ew.error=true;
+            return ew;
+            });
+        },
 
             getInfoPerfil:function(idArtista){
             return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getInfoPerfil',{idArtista : idArtista})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+          //  response.data.error = true;
+            var ew = {};
+            ew.error=true;
+            return ew;
+            });
+        },
+
+                            agendarEvento:function(data){
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/agendarEvento',data)
             .then(function(response) {
                 console.log(response);
             return response.data;

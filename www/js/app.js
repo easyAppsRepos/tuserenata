@@ -39,6 +39,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
          console.log(data);
 
          if(data.additionalData.params == '1'){ $rootScope.$broadcast('actualizarInteresados');}
+
           if(data.additionalData.params == '2'){ $rootScope.$broadcast('artistaElegido');}
            if(data.additionalData.params == '3'){ $rootScope.$broadcast('eventoFinalizado');}
          
@@ -137,6 +138,54 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }
         }
     })
+      .state('app.puntos', {
+        url: '/puntos',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/puntos.html',
+                controller: 'puntosCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function ($timeout) {
+
+                }
+            }
+        }
+    })
+      .state('app.anuncios', {
+        url: '/anuncios',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/anuncios.html',
+                controller: 'anunciosCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function ($timeout) {
+
+                }
+            }
+        }
+    })
+
+            .state('app.mapa', {
+        url: '/mapa/:lat/:lon',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/mapa.html',
+                controller: 'mapaCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function ($timeout) {
+
+                }
+            }
+        }
+    })
+
+
 
             .state('app.mensajes', {
         url: '/mensajes',
@@ -323,7 +372,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }
         }
     })
-    ;
+
+        .state('app.contratar', {
+        url: '/contratar/:idArtista',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/contratar.html',
+                controller: 'contratarCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function ($timeout) {
+                    /*$timeout(function () {
+                        document.getElementById('fab-profile').classList.toggle('on');
+                    }, 800);*/
+                }
+            }
+        }
+    });
 
     // if none of the above states are matched, use this as the fallback
     //$urlRouterProvider.otherwise('/app/login');

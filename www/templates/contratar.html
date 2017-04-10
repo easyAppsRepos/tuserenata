@@ -1,0 +1,73 @@
+
+
+
+    <ion-view view-title="Agendar un evento">
+    <ion-content ng-class="{expanded:$scope.isExpanded}" style='background-color: #fafafa;' overflow-scroll="true">
+
+
+    <div>
+  
+ <div style="margin-left:30px; margin-right:30px; border-bottom:2px solid #777"> <h4>Programar evento</h4></div>
+  <div class="list list-inset" style="border:none;text-align: center">
+  <label class="item item-input" style="border:solid 1px #ccc">
+   <span class="input-label">Nombre</span>
+    <input type="text" placeholder="Nombre de evento" ng-model='evento.nombre' >
+  </label>
+
+      <label style="border:solid 1px #ccc" class="item item-input">
+       <span class="input-label">Numero de contacto</span>
+    <input ng-model='evento.telefono'  type="number" ">
+  </label>
+
+
+  <label style="border:solid 1px #ccc" class="item item-input">
+     <span class="input-label">Fecha</span>
+    <input ng-model='evento.fecha' ng-click='openDatePicker()' type="date" placeholder="01/01/2017">
+  </label>
+
+    <label style="border:solid 1px #ccc" class="item item-input">
+       <span class="input-label">Hora</span>
+    <input ng-model='evento.hora' ng-click='openTimePicker()' type="text" placeholder="00:00pm">
+  </label>
+
+      <label style="border:solid 1px #ccc" class="item item-input">
+       <span class="input-label">Lugar</span>
+    <input ng-model='evento.lugar'  type="text" placeholder="Medellin">
+  </label>
+
+
+<button ng-click='agregarEvento()' style='color:#444 !important; margin-top: 20px;margin-bottom: 20px' class="button button-energized button-small">Agregar</button>
+</div>
+
+
+    </div>
+
+    <div>
+      
+ <div style="margin-left:30px; margin-right:30px; border-bottom:2px solid #777"> <h4>
+Agenda</h4></div>
+
+              <div style='    margin-left: 30px;
+    margin-right: 30px;' class="list">
+
+            <a ng-repeat='e in eventos' class="item item-avatar" >
+              <img src="img/calen.png">
+              <h2>{{e.nombre}}</h2>
+              <p>{{e.fecha}} - {{e.hora}}</p>
+            </a>
+
+
+
+        </div>
+
+
+    </div>
+
+
+    </ion-content>
+
+
+
+
+
+</ion-view>

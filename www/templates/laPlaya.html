@@ -48,15 +48,22 @@
                             <i style='margin-right: 6px;' class="icon ion-music-note"></i>{{getCat(p.idCategoria)}}
                             
                         </div>
-                              <div class="" style="padding-top: 3px;">
+                        <div ng-show='!validarPost(p.ids)' class="" style="padding-top: 3px;">
                             <i style='margin-right: 4px;' class="icon ion-clock"></i> Hace {{timeSince(p.fechaPublicacion)}}
 
                         </div>
+
+                       <div ng-show='validarPost(p.ids)' class="" style="padding-top: 3px;">
+                            <i style='color:green;margin-right: 4px;' class="icon ion-checkmark-circled"></i> Postulado
+
+                        </div>
+
+
                     </div>
 
                 </div>
 
-                <span ng-show='verificarAsistencia(p.fut)' style="    color: lightcoral;position: absolute; bottom: 0;margin-bottom: 10px;right: 0px; margin-right: 10px;"><strong>Asistiras</strong></span>
+<!--                 <span  style="    color: lightcoral;position: absolute; bottom: 0;margin-bottom: 10px;right: 0px; margin-right: 10px;"><strong>Asistiras</strong></span> -->
 
 
             </div>

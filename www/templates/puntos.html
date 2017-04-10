@@ -1,0 +1,95 @@
+
+
+
+<ion-view view-title="Gestion de Puntos">
+
+
+
+
+
+
+
+ <ion-content style='   font-family: Ubuntu; background-color: #efefef;'>
+
+<div style="
+    background-color: #444;
+    ">
+
+<div style="
+       font-size: 30px;
+       text-align: center;
+       color: #ffc900;
+       margin-left: 30px;
+       margin-right: 30px !important;
+       padding-top: 20px;
+       padding-bottom: 25px;
+">  <img src="http://localhost:8100/img/moneda.png?livereload=1491798467849" style="
+    vertical-align: middle;
+    height: 34px;
+"> {{puntosUser}}<a style="       display: block;
+    font-size: 18px;
+    text-align: center;
+    color: white;
+    line-height: 11px; margin-left: 33px;
+">puntos</a></div>
+</div>
+
+<div class="content" style="
+ font-family: Ubuntu;
+ background-color: transparent;
+ color: white;
+ /*
+ background-color: #2ed09c;
+ color:  #fafafa
+*/
+ /* border: solid 4px #444; */
+ margin-left: 10px;
+ margin-right: 10px;
+ margin-top: 10px;
+ text-align: left;
+ ">
+      <div style="    color: #444;
+    font-size: 17px;
+    border-bottom: solid 2px rgba(169, 169, 169, 0.27);
+    margin-top: 15px;
+    padding-bottom: 6px;
+    margin-bottom: 15px;">Recarga tus puntos</div>
+
+      <div style="
+    padding-top: 10px;
+">
+        <p style="
+    font-size: 17px;    margin-bottom: 10px;
+
+    font-family: Ubuntu ;
+">Ingresar codigo</p>
+        
+        
+      </div>
+
+      <div style="
+    
+    padding-bottom:20px;
+">
+
+<input style="padding-left: 15px;width: 80%;border-radius: 4px;" ng-model='dat.codigo' type="text" name="" placeholder="0000000">
+<button ng-click='activarCodigo()'  class="button button-light" style="
+       margin-top: 17px;
+       width: 135px;
+       color: #444;
+       height: 32px;
+       background-color: white;
+       line-height: 1;
+       min-height: 20px;
+       font-family: UbuntuM;
+">
+  Activar
+</button>
+
+
+      </div>
+
+    </div>
+
+  </ion-content>
+</ion-view>

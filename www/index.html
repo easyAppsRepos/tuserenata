@@ -20,6 +20,8 @@
 
     <script src="lib/onezone-datepicker/dist/onezone-datepicker.min.js"></script>
     
+  <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCokKFw_GhhNPBB4E2P4U069ynaGgvt7Jw"></script>
+
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
     <!-- your app's js -->
@@ -112,11 +114,21 @@
     font-size: 20px;
 ">Acciones</p> -->
 
-<button ng-click='postularme(infoModal.idPublicacion, infoModal.idUsuario)' style='    border: solid 2px;
+<button ng-show='!validarPost(infoModal.ids)'  ng-click='postularme(infoModal.idPublicacion, infoModal.idUsuario)' style='    border: solid 2px;
     min-width: 30px !important;
     margin-top: 30px;
     margin-bottom: 30px;
     width: 100%;' class="button button-small button-outline button-energized" >Postularme</button>
+
+    <div style='font-family: UbuntuM;
+color: lightgreen'  ng-show='validarPost(infoModal.ids)'>Ya te has postulado para esta publicacion</div>
+    <button ng-show='validarPost(infoModal.ids)'  ng-click='cancelarPostularme(infoModal.idPublicacion)' style='    border: solid 2px;
+    min-width: 30px !important;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;' class="button button-small button-outline button-energized" >Cancelar </button>
+
+
 
         </div>
 

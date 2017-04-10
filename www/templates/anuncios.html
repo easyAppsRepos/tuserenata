@@ -1,0 +1,77 @@
+
+
+
+<ion-view view-title="Publica un anuncio">
+
+
+
+
+
+
+
+ <ion-content style='    background-color: #efefef;'>
+
+
+    <div>
+  
+ <div style="margin-top: 30px;margin-left:30px; margin-right:30px; border-bottom:2px solid #777"> <h4>Costo: 100 puntos</h4></div>
+  <div class="list list-inset" style="border:none;text-align: center">
+  <label class="item item-input" style="border:solid 1px #ccc">
+   <span class="input-label">Nombre</span>
+    <input type="text" placeholder="Nombre" ng-model='anuncio.nombre' >
+  </label>
+
+      <label style="border:solid 1px #ccc" class="item item-input">
+       <span class="input-label">Valor</span>
+    <input ng-model='anuncio.valor'  type="number" ">
+  </label>
+
+
+      <label style="border:solid 1px #ccc" class="item item-input">
+       <span class="input-label">Telefono</span>
+    <input ng-model='anuncio.telefono'  type="number" ">
+  </label>
+
+
+  <label style='    margin-top: 20px;
+    margin-bottom: 5px;' class="item item-input item-stacked-label item-select">
+    <div style='color: #444 !important;' class="input-label">
+      Tipo
+    </div>
+    <select ng-model='anuncio.tipo' >
+      <option  value='1' selected>Arreglos Florales</option>
+      <option value='2'>Transporte</option>
+      <option value='3'>Musico</option>
+    </select>
+  </label>
+
+
+
+<button ng-click='agregarAnuncio()' style='color:#444 !important; margin-top: 20px;margin-bottom: 20px' class="button button-energized button-small">Agregar</button>
+</div>
+
+
+    </div>
+
+    <div>
+      
+ <div style="margin-left:30px; margin-right:30px; border-bottom:2px solid #777"> <h4>
+Mis anuncios</h4></div>
+
+              <div style='    margin-left: margin-left: 15px;' class="list">
+
+            <a ng-repeat='e in anuncios' class="item item-avatar" >
+              <img src="img/publi.png">
+              <h2>{{e.nombre}}</h2>
+              <p>{{e.telefono}} - {{e.valor}}</p>
+            </a>
+
+
+
+        </div>
+
+
+    </div> 
+
+  </ion-content>
+</ion-view>

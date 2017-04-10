@@ -47,16 +47,16 @@
       Género
     </div>
     <select ng-model='reserva.genero' >
-      <option selected>Mariachis</option>
-      <option >Boleros</option>
-      <option >Norteñas</option>
-      <option >Tunas</option>
-      <option >Parranda Vallenato</option>
-      <option >Llanera</option>
-      <option >Bandas de Rock</option>
-      <option >Carranguera</option>
-      <option>Solistas</option>
-      <option >Orquestas Tropicales</option>
+      <option  value='1' selected>Mariachis</option>
+      <option value='2'>Boleros</option>
+      <option value='3'>Norteñas</option>
+      <option value='4'>Tunas</option>
+      <option value='5'>Parranda Vallenato</option>
+      <option value='6'>Llanera</option>
+      <option value='7'>Bandas de Rock</option>
+      <option value='8'>Carranguera</option>
+      <option value='9'>Solistas</option>
+      <option value='10'>Orquestas Tropicales</option>
     </select>
   </label>
 
@@ -249,8 +249,8 @@
 
         </div>
 
-
-
+<!--  ui-sref="app.mapa" 
+ -->
           <div  ng-show='enBusqueda == 1'  style="text-align:center; margin-top:-30px">
             <button ng-click='cargando()' style="   margin-top: 20px;   padding-left: 0px;  min-width: 255px;height: 55px;" class="button"> 
 
@@ -291,10 +291,13 @@
                 </div>
                 </div>
 
-
+              <button ng-click='abrirMapa()'   style='border: solid 2px;    min-width: 270px;
+                margin-top: 45px;' class="icon-left ion-ios-location button button-small button-outline button-energized">
+                Abrir mapa
+                </button> 
 
                 <button ng-click='detallePublicacion()'  style='border: solid 2px;    min-width: 270px;
-                margin-top: 45px;' class="icon-left ion-android-notifications button button-small button-outline button-energized">
+                margin-top: 17px;' class="icon-left ion-android-notifications button button-small button-outline button-energized">
                 Detalle del evento
                 </button> 
 
@@ -320,10 +323,14 @@
                 <div class="wrap">
                 <div class="loading">
                 <div class="bounceball"></div>
-                <div class="text">Tu serenata esta en camino! </div>
+                <div class="text">Tu serenata <br> esta en camino! </div>
                 </div>
                 </div> 
 
+                <button ng-click='cancelarSerenataUser()' style='border: solid 2px;    min-width: 270px;
+                margin-top: 45px;' class="icon-left ion-close-circled button button-small button-outline button-energized">
+                Cancelar Serenata
+                </button>
        
 
     
