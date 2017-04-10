@@ -980,10 +980,10 @@ $scope.notificarLlegada = function(){
 }
 
 $scope.abrirMapa = function(){
-
+$state.go("app.mapa",{lat: $scope.infoModal.lat, lon: $scope.infoModal.lon });
      // $ionicLoading.show();
-if($scope.infoModal.lat !== null && $scope.infoModal.lat !== 'null'){$state.go("app.mapa",{lat: $scope.infoModal.lat, lon: $scope.infoModal.lon });}
-else{mensajeAlerta('El usuario no ha proporcionado ubicacion GPS');}
+//if($scope.infoModal.lat !== null && $scope.infoModal.lat !== 'null'){$state.go("app.mapa",{lat: $scope.infoModal.lat, lon: $scope.infoModal.lon });}
+//else{mensajeAlerta('El usuario no ha proporcionado ubicacion GPS');}
 
 }
 
