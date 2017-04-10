@@ -2316,6 +2316,7 @@ getAnunucios();
 
 
         }, function(error) {
+           $ionicLoading.hide();
          mensajeAlerta('Debes activar el GPS para publicar un anuncio');
 
         });
