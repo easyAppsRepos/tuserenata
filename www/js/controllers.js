@@ -1860,12 +1860,18 @@ $scope.infoModal={};
     $scope.validarPost = function(listaIntere){
  var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
         var idUser = userData.idUsuario;
+ console.log(listaIntere);
+        if(listaIntere == null || listaIntere == 'null'){
+          console.log('false8888');
+          return false}
 
-        if(listaIntere == null || listaIntere == 'null'){return false}
+          //console.log('TRUE8888');
       var myStringArray = listaIntere.split(",");
         var arrayLength = myStringArray.length;
         for (var i = 0; i < arrayLength; i++) {
-            if(listaIntere[i] == idUser){ return true;}
+
+             
+            if(myStringArray[i] == idUser){ return true;}
            
             //Do something
         }
@@ -3166,7 +3172,7 @@ getEventosAgendados();
 
         }, function(error) {
           console.log('Unable to get location: ' + error.message);
-                scope.evento.idArtista = $scope.idArtista;
+                $scope.evento.idArtista = $scope.idArtista;
                 $scope.evento.idUsuario = idUser;
 
                 $scope.evento.lat = null;
