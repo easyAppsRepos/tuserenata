@@ -2081,9 +2081,31 @@ console.log(data);
 
 
 
-.controller('mapaCtrl', function($scope, $ionicPopup, $compile, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicLoading, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
+.controller('mapaCtrl', function($scope, $ionicPopup, $compile, NgMap, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicLoading, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
 
 console.log('mapa');
+
+
+      $scope.lat = $stateParams.lat;
+        $scope.lon = $stateParams.lon;
+
+
+var vm = this; 
+    $scope.$on('$ionicView.enter', function(e) {
+      
+      $scope.lat = $stateParams.lat;
+        $scope.lon = $stateParams.lon;
+
+                          NgMap.getMap().then(function(map) {
+                    vm.map = map;
+                  });
+
+    $ionicNavBarDelegate.showBar(true);
+      $ionicSideMenuDelegate.canDragContent(false)
+});
+
+
+
  
     // Set Header
     $scope.$parent.showHeader();
@@ -2117,8 +2139,7 @@ console.log('mapa2');
     });*/
 
     //map
-      $scope.lat = $stateParams.lat;
-        $scope.lon = $stateParams.lon;
+
 
 console.log('mapa3');
       function initialize() {
@@ -2192,8 +2213,9 @@ console.log(new google.maps.LatLng($scope.lat, $scope.lon));
         $scope.map = map;
       }
       //google.maps.event.addDomListener(window, 'load', initialize);
-      initialize();
+     // initialize();
       $scope.centerOnMe = function() {
+        console.log('ss');
         if(!$scope.map) {
           return;
         }
@@ -2204,9 +2226,14 @@ console.log(new google.maps.LatLng($scope.lat, $scope.lon));
         });
 
         navigator.geolocation.getCurrentPosition(function(pos) {
-          $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-              $scope.map.setZoom(16);
+
+console.log('ss');
+console.log(pos);
+         // $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+          //    $scope.map.setZoom(16);
           $scope.loading.hide();
+
+
         }, function(error) {
           alert('Unable to get location: ' + error.message);
         });

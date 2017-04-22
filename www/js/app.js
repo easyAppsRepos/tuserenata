@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic-material', 'onezone-datepicker', 'ionMdInput', 'ionic-datepicker', 'ionic-timepicker'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic-material', 'ngMap', 'onezone-datepicker', 'ionMdInput', 'ionic-datepicker', 'ionic-timepicker'])
 
 .run(function($ionicPlatform,$rootScope) {
     $ionicPlatform.ready(function() {
