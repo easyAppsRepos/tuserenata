@@ -980,6 +980,8 @@ $scope.notificarLlegada = function(){
 }
 
 $scope.abrirMapa = function(){
+  console.log($scope.infoModal.lat);
+    console.log($scope.infoModal.lon);
 $state.go("app.mapa",{lat: $scope.infoModal.lat, lon: $scope.infoModal.lon });
      // $ionicLoading.show();
 //if($scope.infoModal.lat !== null && $scope.infoModal.lat !== 'null'){$state.go("app.mapa",{lat: $scope.infoModal.lat, lon: $scope.infoModal.lon });}
