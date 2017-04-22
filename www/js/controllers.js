@@ -2083,7 +2083,7 @@ console.log(data);
 
 .controller('mapaCtrl', function($scope, $ionicPopup, $compile, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicLoading, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
 
-
+console.log('mapa');
  
     // Set Header
     $scope.$parent.showHeader();
