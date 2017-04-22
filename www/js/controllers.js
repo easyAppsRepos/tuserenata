@@ -2092,7 +2092,7 @@ console.log('mapa');
 
 var vm = this; 
     $scope.$on('$ionicView.enter', function(e) {
-      
+
       $scope.lat = $stateParams.lat;
         $scope.lon = $stateParams.lon;
 
@@ -2216,9 +2216,7 @@ console.log(new google.maps.LatLng($scope.lat, $scope.lon));
      // initialize();
       $scope.centerOnMe = function() {
         console.log('ss');
-        if(!$scope.map) {
-          return;
-        }
+
 
         $scope.loading = $ionicLoading.show({
           content: 'Getting current location...',
