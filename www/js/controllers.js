@@ -2122,7 +2122,14 @@ console.log('mapa2');
 
 console.log('mapa3');
       function initialize() {
+
+
+
+console.log($scope.lon);
 console.log('mapa4');
+
+console.log(new google.maps.LatLng($scope.lat, $scope.lon));
+
         var myLatlng = new google.maps.LatLng($scope.lat, $scope.lon);
         var myLatlng2 = new google.maps.LatLng($scope.lat, $scope.lon);
 
