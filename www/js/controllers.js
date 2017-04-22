@@ -2104,7 +2104,7 @@ console.log('mapa');
             startVelocity: 3000
         });
     }, 700);
-
+console.log('mapa2');
     // Set Ink
     ionicMaterialInk.displayEffect();
        $ionicSideMenuDelegate.canDragContent(false);
@@ -2120,11 +2120,11 @@ console.log('mapa');
       $scope.lat = $stateParams.lat;
         $scope.lon = $stateParams.lon;
 
-
+console.log('mapa3');
       function initialize() {
-
-        var myLatlng = new google.maps.LatLng(10.0142238,-84.2153251);
-        var myLatlng2 = new google.maps.LatLng($scope.lat,$scope.lon);
+console.log('mapa4');
+        var myLatlng = new google.maps.LatLng($scope.lat, $scope.lon);
+        var myLatlng2 = new google.maps.LatLng($scope.lat, $scope.lon);
 
         console.log(myLatlng);
         var mapOptions = {
