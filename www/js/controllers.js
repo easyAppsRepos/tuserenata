@@ -2192,7 +2192,7 @@ console.log(new google.maps.LatLng($scope.lat, $scope.lon));
         $scope.map = map;
       }
       //google.maps.event.addDomListener(window, 'load', initialize);
-   //   initialize();
+      initialize();
       $scope.centerOnMe = function() {
         if(!$scope.map) {
           return;
