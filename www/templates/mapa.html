@@ -15,19 +15,39 @@
     width: 100%;
     height: 100%;
     bottom: 86px;
-" zoom="14" center="37.7699298, -122.4469157" >
+" zoom="14" center="{{lat}}, {{lon}}" >
+
+  <custom-marker  position="[{{lat}}, {{lon}}]"
+        
+         >
+          <div class="my1"><div>Destino</div> </div>
+        </custom-marker>
+
+  <custom-marker  position="current-location"
+        
+          >
+          <div class="my1"><div>Mi Posicion</div> </div>
+        </custom-marker>
+
+  <custom-marker ng-repeat='a in anunciosTodos' position="[{{a.lat}}, {{a.lon}}]"
+        
+        >
+          <div class="my1"><div>{{a.nombre}}</div> </div>
+        </custom-marker>
+
+
         <directions
-          draggable="true"
+          draggable="false"
           travel-mode="DRIVING"
           origin="current-location"
-          destination="Montreal, Canada">
+          destination="[{{lat}}, {{lon}}]">
         </directions>
       </ng-map>
 </div>	
   </ion-content>
 
       <ion-footer-bar class="bar-dark">
-      <a style="margin-top: 5px;min-width: 100%;border-radius: 0px;" ng-click="centerOnMe()" class="button button-icon icon ion-navigate">Encuentrame</a>
+    <!--   <a style="margin-top: 5px;min-width: 100%;border-radius: 0px;" ng-click="centerOnMe()" class="button button-icon icon ion-navigate">Encuentrame</a> -->
     </ion-footer-bar>
 
 

@@ -2095,7 +2095,8 @@ var vm = this;
 
       $scope.lat = $stateParams.lat;
         $scope.lon = $stateParams.lon;
-
+console.log( $scope.lat);
+console.log( $scope.lon);
                           NgMap.getMap().then(function(map) {
                     vm.map = map;
                   });
@@ -2138,8 +2139,31 @@ console.log('mapa2');
       
     });*/
 
-    //map
+    //mapa
 
+    $scope.getAnunciosTodos = function(){
+
+        api.getAnunciosTodos().then(function(data) {
+$ionicLoading.show();
+     
+      if(!data.error){
+
+       console.log(data);
+       $scope.anunciosTodos = data.eventos;
+        $ionicLoading.hide();
+      }
+      else{
+         $ionicLoading.hide();
+        mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+      //$state.go('app.inicio');
+      }
+      });
+
+
+    }
+
+
+$scope.getAnunciosTodos();
 
 console.log('mapa3');
       function initialize() {

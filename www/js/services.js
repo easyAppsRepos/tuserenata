@@ -536,6 +536,22 @@ console.log(reservaObj);
             });
         },
 
+
+                    getAnunciosTodos:function(){
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getAnunciosTodos')
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+          //  response.data.error = true;
+            var ew = {};
+            ew.error=true;
+            return ew;
+            });
+        },
+
             getInfoPerfil:function(idArtista){
             return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getInfoPerfil',{idArtista : idArtista})
             .then(function(response) {
