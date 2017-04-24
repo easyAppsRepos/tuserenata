@@ -1697,6 +1697,53 @@ $scope.evaluacion={};
     $scope.notiAccion=function(noti){
       console.log(noti);
 
+
+
+
+          $scope.showPopup = function() {
+            $scope.data = {}
+           var customTemplate2 ='<div style="color:white !important" > El artista desea cambiar la fecha de la serenata para el dia 24/04/2017 a las 14h:30min. <br><br>  <strong>Aceptas esta fecha?</strong></div> ';
+
+
+            $ionicPopup.show({
+              template: customTemplate2,
+              title: '',
+              subTitle: '',
+              scope: $scope,
+              buttons: [
+                { text: 'No', onTap: function(e) { return false; } },
+                {
+                  text: '<b>Si</b>',
+                  type: 'button-energized ',
+                  onTap: function(e) {
+                    return  true;
+                  }
+                },
+              ]
+              }).then(function(res) {
+
+              
+                console.log('Tapped!', res);
+              }, function(err) {
+                console.log('Err:', err);
+              }, function(msg) {
+                console.log('message:', msg);
+              });
+
+
+          };
+
+
+       if(noti.idTipoNotificacion == 9 ){
+
+$scope.showPopup();
+
+       }
+
+
+
+
+
       if(noti.idTipoNotificacion == 5 ){
 
         console.log('evaluacion');
