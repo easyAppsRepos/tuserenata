@@ -148,6 +148,25 @@ console.log(reservaObj);
 
 
 
+        agregarComentario:function(idArtista, idUsuario, estrellas, comentarios, idNotificacion){
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/agregarComentario',{idArtista:idArtista, idUsuario:idUsuario, estrellas:estrellas, comentarios:comentarios, idNotificacion:idNotificacion})
+            .then(function(response) {
+
+                console.log(response);
+
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+          //  response.data.error = true;
+            var ew = {};
+            ew.error=true;
+            return ew;
+            });
+        },
+
+
+
         agregarAnuncio:function(data){
             return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/agregarAnuncio',data)
             .then(function(response) {

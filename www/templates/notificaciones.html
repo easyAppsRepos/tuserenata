@@ -20,7 +20,8 @@
     <a style='border-bottom: solid 1px lightgray' class="item item-avatar" >
       <img ng-src="img/noti{{n.idTipoNotificacion}}.png">
       <h2 style="white-space: normal;">{{n.titulo}}</h2>
-      <p>{{n.fecha}}</p>
+      <p ng-hide  ='n.idTipoNotificacion == 5'>{{n.fecha}}</p>
+      <p  style='white-space: normal;' ng-show='n.idTipoNotificacion == 5' >Evalua el servicio de {{n.nombre}}</p>
     </a>
 </div>
 

@@ -718,8 +718,9 @@ $state.go('app.profile', { idArtista:idArtista });
      $scope.$on('artistaElegido', function(event, args) {
 
         console.log('en artistaElegido');
-        $scope.enBusqueda = 3;
-        window.localStorage.setItem( 'estadoAppTS', 3);
+        verificarEstado();
+       // $scope.enBusqueda = 3;
+       // window.localStorage.setItem( 'estadoAppTS', 3);
        // verificarEstado();
 
       });
@@ -728,8 +729,9 @@ $state.go('app.profile', { idArtista:idArtista });
      $scope.$on('eventoFinalizado', function(event, args) {
 
         console.log('en eventoFinalizado');
-        $scope.enBusqueda = 1;
-        window.localStorage.setItem( 'estadoAppTS', 1);
+        verificarEstado();
+       // $scope.enBusqueda = 1;
+       // window.localStorage.setItem( 'estadoAppTS', 1);
 
       });
 
@@ -1747,11 +1749,11 @@ $scope.showPopup();
       if(noti.idTipoNotificacion == 5 ){
 
         console.log('evaluacion');
-
+        //if(noti.estado==2){ mensajeAlerta('Ya evaluaste este servicio');}
         if(noti.estado==1){
 
                 var customTemplate =
-        '<div style="text-align:center"> <p style="margin-top:25px; color:white !important">¿Evalua del 1 al 5 el servicio brindado?</p>     <select style="    background-color: white;width: 100%;height: 35px;" ng-model="evaluacion.estrellas" > <option value="1" selected>Malo</option><option value="2" >Regular</option> <option value="3">Bueno</option><option value="4">Muy Bueno</option> <option value="5">Excelente</option></select> <div style="margin-top: 20px;margin-bottom: 5px;color: white;font-size: 15px;" >Agrega un comentario</div> <textarea ng-model="evaluacion.comentario" rows="4" style=" resize: none;"> </textarea></div>';
+        '<div style="    text-align: center; color: white; font-family: UbuntuM;">Evaluando el servicio de '+noti.nombre+'</div><div style="text-align:center"> <p style="margin-top:25px; color:white !important">¿Evalua del 1 al 5 el servicio brindado?</p>     <select style="    background-color: white;width: 100%;height: 35px;" ng-model="evaluacion.estrellas" > <option value="1" selected>Malo</option><option value="2" >Regular</option> <option value="3">Bueno</option><option value="4">Muy Bueno</option> <option value="5">Excelente</option></select> <div style="margin-top: 20px;margin-bottom: 5px;color: white;font-size: 15px;" >Agrega un comentario</div> <textarea ng-model="evaluacion.comentario" rows="4" style=" resize: none;"> </textarea></div>';
 
       $ionicPopup.show({
         template: customTemplate,
@@ -1767,6 +1769,40 @@ $scope.showPopup();
             console.log($scope.evaluacion.comentario);
             console.log($scope.evaluacion.estrellas);
 
+            if($scope.evaluacion.estrellas == undefined || $scope.evaluacion.estrellas == 'undefined' || 
+              $scope.evaluacion.estrellas == '' || $scope.evaluacion.estrellas == null){
+
+              console.log(noti);
+            }
+
+            else{
+
+
+        var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+        var idUser = userData.idUsuario;
+
+
+
+                    $ionicLoading.show();
+                    //console.log(idArtista);
+                    // console.log(id);
+
+                    api.agregarComentario(noti.idAccion, idUser, $scope.evaluacion.estrellas, $scope.evaluacion.comentario, noti.idNotificacion ).then(function(response){
+
+                           if(!response.error){
+
+                          mensajeAlerta('Tu calificacion ha sido agregada, gracias por utilizar nuestro servicio');
+
+                        
+                          }
+                          else{
+                          mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
+                          }
+
+
+                    });
+
+            }
 
 /*//borrar start
       $ionicLoading.show();
