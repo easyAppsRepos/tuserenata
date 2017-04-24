@@ -595,6 +595,22 @@ console.log(reservaObj);
             ew.error=true;
             return ew;
             });
+        },
+
+
+        actualizarFechaEvento:function(data){
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/actualizarFechaEvento',data)
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+          //  response.data.error = true;
+            var ew = {};
+            ew.error=true;
+            return ew;
+            });
         }
 
 

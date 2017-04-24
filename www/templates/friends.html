@@ -563,15 +563,19 @@ textarea {
                         <td><i class="icon ion-ios-telephone-outline"></i></td>
                         <td><a   style="color: #576268;font-weight: 300;">{{ reserva.telefono }}</a></td>
                     </tr> 
-                    <tr>
-                        <td><i class="icon ion-ios-email-outline"></i></td>
-                        <td><a   style="color: #576268;font-weight: 300;">{{ reserva.email }}</a></td>
-                    </tr>
+
 
                     <tr>
                         <td><i class="icon  ion-location"></i></td>
                         <td><a   style="color: #576268;font-weight: 300;">{{reserva.lugar}}</a></td>
                     </tr> 
+
+
+                    <tr>
+                        <td><i class="icon  ion-map"></i></td>
+                        <td><a  ui-sref="app.mapa({lat: reserva.lat, lon: reserva.lon})" style="color: #576268;font-weight: 300;">Ver ubicacion en Mapa</a></td>
+                    </tr> 
+
 
                         
 
@@ -587,6 +591,10 @@ textarea {
             <div class="col btn-text-center" ng-if="reserva.estado == 1" ng-click="confirmarEvento(reserva.idEvento)">Confirmar</div>
 
             <div ng-if="reserva.estado == 1" class="col btn-text-center ligth" ng-click="cancelarEvento(reserva.idEvento)">Rechazar</div>
+
+            <div ng-if="reserva.estado == 1" class="col btn-text-center ligth" ng-click="cambiarFechaT(reserva.idEvento, reserva.idUsuario)">Cambiar Fecha/Hora</div>
+
+
 
              <div ng-if="reserva.estado == 2" class="col btn-text-center ligth" ng-click="cancelarEvento(reserva.idEvento)">Cancelar</div>
 

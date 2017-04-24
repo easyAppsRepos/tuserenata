@@ -26,12 +26,62 @@
 
      <ion-content style='background-color: #444' >
 
+
+
+    <label style='      padding-bottom: 15px;
+    border-left: none;
+    border-right: none;' class="item item-input item-stacked-label item-select">
+    <div style='color: #fafafa !important; width: 90% !important' class="input-label">
+    Filtrar por ciudad
+    </div>
+    <select style="   margin-top: 10px;
+  position: relative;
+    width: 65%;
+    display: block;" ng-model='filtroBusqueda' >
+   
+      <option value='1' >Armenia</option>
+      <option value='2'>Barrancabermeja</option>
+      <option value='3'>Barranquilla</option>
+      <option value='4'>Bogotá</option>
+      <option value='5'>Cali</option>
+      <option value='6'>Cartagena</option>
+      <option value='7'>Cartago</option>
+      <option value='8'>Cúcuta</option>
+      <option value='9'>Florencia</option>
+      <option value='10'>Ibagué</option>
+
+            <option value='11'>Manizales</option>
+      <option value='12'>Medellín</option>
+      <option value='13'>Montería</option>
+      <option value='14'>Neiva</option>
+      <option value='15'>Palmira</option>
+      <option value='16'>Pasto</option>
+      <option value='17'>Pereira</option>
+      <option value='18'>Popayán</option>
+      <option value='19'>Quibdó</option>
+
+            <option value='20'>Riohacha</option>
+      <option value='21'>Andrés</option>
+      <option value='22'>Santa Marta</option>
+      <option value='23'>Tuluá</option>
+      <option value='24'>Tunja</option>
+      <option value='25'>Valledupar</option>
+      <option value='26'>Villavicencio</option>
+  
+
+
+ filter:(!!locationFilter || undefined) && {location: locationFilter}"
+
+    </select>
+  </label>
+
+
      <div style="margin-top: 30px;
     text-align: center;
     font-size: 17px;
     color: white;" ng-show='items.length == 0' >No se encontraron resultados</div>
 
-            <div class="item card-item" collection-repeat='a in items' ng-click='abrirDetalleArtista(a.idArtista)'>
+            <div class="item card-item" collection-repeat='a in items | orderBy : "calificacion":true | filter:(!!filtroBusqueda || undefinded) && { ciudad: filtroBusqueda }' ng-click='abrirDetalleArtista(a.idArtista)'>
             <div  class="card stable-bg ink ink-dark">
                 <div style=" background-color: ghostwhite;
     font-size: 15px;

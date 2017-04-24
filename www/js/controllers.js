@@ -2766,7 +2766,37 @@ $scope.confirmarEvento = function(idEvento){
 
 }
 
+$scope.cambiarFecha={};
 
+
+$scope.cambiarFechaT = function(idEvento, idUsuario){
+$scope.cambiarFecha.idEvento = idEvento;
+$scope.cambiarFecha.idUsuario = idUsuario;
+  $scope.openDatePicker22();
+
+
+  //console.log(idEvento);
+/*
+    $ionicLoading.show();
+
+    api.cambiarFecha(idEvento).then(function(response){
+
+    $ionicLoading.hide();
+
+    if(response.error==true){
+
+       mensajeAlerta('Ha ocurrido un error');
+
+      }
+    else{
+
+       mensajeAlerta('Has cancelado la reservacion');
+       $state.reload();
+
+    }  
+    });
+  */
+}
 
 
 
@@ -3024,8 +3054,46 @@ $scope.cancelarEvento = function(idEvento){
       closeOnSelect: false,       //Optional
       templateType: 'popup'       //Optional
     };
+
+
+      var ipObj11 = {
+      callback: function (val) {  //Mandatory
+      //  console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+
+        var date = new Date(val);
+     
+       var datestring = ("0" + (date.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date.getDate().toString()).substr(-2)  + "/" + (date.getFullYear().toString()).substr(2);
+   $scope.cambiarFecha.fecha=datestring;
+
+      console.log(datestring);
+       $scope.openTimePicker22();
+    //  $scope.evento.id=("" + (date.getMonth() + 1).toString()).substr(-2) + "" + (date.getDate().toString()).substr(-2)  + "" + (date.getFullYear().toString()).substr(2);
+     },
+      disabledDates: [            //Optional
+        new Date(2016, 2, 16),
+        new Date(2015, 3, 16),
+        new Date(2015, 4, 16),
+        new Date(2015, 5, 16),
+        new Date('Wednesday, August 12, 2015'),
+        new Date("08-16-2016"),
+        new Date(1439676000000)
+      ],
+      from: new Date(2017, 1, 1), //Optional
+      to: new Date(2017, 11, 31), //Optional
+      inputDate: new Date(),      //Optional
+      mondayFirst: true,          //Optional
+      //disableWeekdays: [0],       //Optional
+      closeOnSelect: false,       //Optional
+      templateType: 'popup'       //Optional
+    };
+
+
     $scope.openDatePicker = function(){
       ionicDatePicker.openDatePicker(ipObj1);
+    };
+
+        $scope.openDatePicker22 = function(){
+      ionicDatePicker.openDatePicker(ipObj11);
     };
  
 
@@ -3056,6 +3124,55 @@ $scope.cancelarEvento = function(idEvento){
     $scope.openTimePicker = function(){
       ionicTimePicker.openTimePicker(ipTObj1);
     };
+
+
+
+  var ipTObj11 = {
+    callback: function (val) {      //Mandatory
+      if (typeof (val) === 'undefined') {
+        console.log('Time not selected');
+      } else {
+        var selectedTime = new Date(val * 1000);
+       $scope.cambiarFecha.hora=(selectedTime.getUTCHours()+ 'H :'+ selectedTime.getUTCMinutes()+ 'M');
+       $scope.cambiarFecha.horaNum=selectedTime.getUTCHours();
+       $scope.cambiarFecha.minutosNum=selectedTime.getUTCMinutes();
+
+       ////////////////////console.log($scope.evento.hora);
+       console.log($scope.cambiarFecha);
+
+           $ionicLoading.show();
+
+    api.actualizarFechaEvento($scope.cambiarFecha).then(function(response){
+
+    $ionicLoading.hide();
+
+    if(response.error==true){
+
+       mensajeAlerta('La fecha esta ocupada');
+
+      }
+    else{
+
+       mensajeAlerta('Fecha Cambiada Correctamente');
+       $state.reload();
+
+    }  
+    });
+
+
+
+      }
+    },
+    inputTime: 50400,   //Optional
+    format: 12,         //Optional
+    step: 15,           //Optional
+    setLabel: 'Ok'    //Optional
+  };
+
+    $scope.openTimePicker22 = function(){
+      ionicTimePicker.openTimePicker(ipTObj11);
+    };
+
  
 
   
