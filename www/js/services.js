@@ -203,6 +203,24 @@ console.log(reservaObj);
             });
         },
 
+                        getChatsArtista:function(data){
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getChatsArtista',{idUsuario: data})
+            .then(function(response) {
+
+                console.log(response);
+                
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+          //  response.data.error = true;
+            var ew = {};
+            ew.error=true;
+            return ew;
+            });
+        },
+
+
 
         
 
@@ -412,6 +430,25 @@ console.log(reservaObj);
             return response.data;
             });
         },
+
+
+
+
+        getMensajess:function(idUser, idArtista){  
+
+            return  $http.post(serverConfig.url+'/TUSERENATA/v1/index.php/getMensajes',{idUsuario:idUser, idArtista : idArtista, tipo: 2})
+            .then(function(response) {
+                console.log(response);
+            return response.data;
+            }, function(response) {
+            // something went wrong
+               console.log(response);
+            response.data.error = true;
+            return response.data;
+            });
+        },
+
+
 
         enviarMensaje:function(idEmisor, idReceptor, texto){  
 

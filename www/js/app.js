@@ -41,6 +41,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
          if(data.additionalData.params == '1'){ $rootScope.$broadcast('actualizarInteresados');}
 
           if(data.additionalData.params == '2'){ $rootScope.$broadcast('artistaElegido');}
+           if(data.additionalData.params == '6'){ $rootScope.$broadcast('artistaElegido');}
            if(data.additionalData.params == '3'){ $rootScope.$broadcast('eventoFinalizado');}
          
          //api.actualizarVista();
@@ -202,7 +203,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }
         }
     })
+            .state('app.mensajesArtista', {
+        url: '/mensajesArtista',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/mensajesArtista.html',
+                controller: 'mensajesArtistaCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function ($timeout) {
 
+                }
+            }
+        }
+    })
 
 
       .state('app.contactenos', {

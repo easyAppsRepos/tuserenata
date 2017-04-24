@@ -1374,9 +1374,9 @@ $scope.cancelarSerenataCliente=function(){
 })
 
 
-.controller('mensajesCtrl', function($scope, $ionicLoading, serverConfig, $ionicPopup, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
+.controller('mensajesArtistaCtrl', function($scope, $ionicLoading, serverConfig, $ionicPopup, api, $rootScope, $stateParams, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
 
- $scope.$parent.showHeader();
+  $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
     $scope.isExpanded = false;
     $scope.$parent.setExpanded(false);
@@ -1395,7 +1395,9 @@ $scope.cancelarSerenataCliente=function(){
         });
     }, 700);
 
-    function mensajeAlerta(mensaje){
+$scope.mensajesCero = false;
+$scope.urlImagenes = serverConfig.imageStorageURL;
+function mensajeAlerta(mensaje){
 
         
    var customTemplate =
@@ -1419,38 +1421,146 @@ $scope.cancelarSerenataCliente=function(){
 }
 
 
-    function getAgenda(){
+    // Set Ink
+    ionicMaterialInk.displayEffect();
+
+    function getChats(){
 
 
       $ionicLoading.show();
 
 
-        var userData = JSON.parse(window.localStorage.getAgenda('userInfoTS'));
+        var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
         var idUser = userData.idUsuario;
 
-      api.getAgenda(idUser).then(function(data) {
+      api.getChatsArtista(idUser).then(function(data) {
       $ionicLoading.hide();
       
       if(!data.error){
       
-        if(data.agenda.length==0){$scope.mensajesCero = true;}
-
+        if(data.chats.length==0){$scope.mensajesCero = true;}
         else{$scope.mensajesCero = false;}
       console.log(data.chats.length);
-      $scope.eventos = data.agenda;
+      $scope.chats = data.chats;
 
     
       }
       else{
-         if(data.agenda.length==0){$scope.mensajesCero = true;}
+         if(data.chats.length==0){$scope.mensajesCero = true;}
       //mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
       }
       });
 
     }
 
-    getAgenda();
+    getChats();
 
+
+    //chat control
+
+    //modal
+    function actualizarMensajes(idUser, idArtista){
+      //console.log(idUser);
+     // console.log(idArtista);
+    api.getMensajess(idUser, idArtista).then(function(response){
+
+    $ionicLoading.hide();
+
+    if(response.error==true){
+
+       mensajeAlerta('Ha ocurrido un error');
+
+      }
+    else{
+
+       $scope.mensajesChat=response.mensajes;
+
+    }  
+    });
+
+    }
+
+$scope.enviarMensaje = function(texto){
+
+  console.log(texto);
+
+  if(texto=='undefined' || texto==undefined || texto == ''){}
+  else{
+
+      api.enviarMensaje($scope.idUsuarioEmisor, $scope.idReceptor,texto).then(function(response){
+       // $ionicLoading.hide();
+        if(response.error){
+        mensajeAlerta('Ha ocurrido un error');
+       }
+        else{
+        actualizarMensajes($scope.idUsuarioEmisor, $scope.idReceptor);
+        }  
+        });
+  }
+}
+
+
+$scope.abrirChat = function(idUsuario){
+
+ $ionicLoading.show();
+
+        var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+        var idUser = userData.idUsuario;
+        $scope.idUsuarioEmisor = idUser;
+        $scope.idReceptor =idUsuario;
+
+if(idUser == 'wewew'){
+  $ionicLoading.hide();
+  mensajeAlerta('No puedes enviarte mensajes a ti mismo');
+}
+else{
+$scope.openModalChat();
+
+  
+actualizarMensajes(idUsuario, idUser);
+
+}
+}
+
+ 
+   $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
+ 
+  $scope.openModalChat= function(animation) {
+    $ionicModal.fromTemplateUrl('chat.html', {
+      scope: $scope,
+      animation: animation
+    }).then(function(modal) {
+
+      $scope.modal = modal;
+      $scope.modal.show();
+
+
+
+     
+    });
+  };
+
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+  //  $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+    //end modal
+
+
+ //chat end
 
 
 })
@@ -1574,7 +1684,7 @@ $scope.enviarMensaje = function(texto){
         mensajeAlerta('Ha ocurrido un error');
        }
         else{
-        actualizarMensajes($scope.idUsuarioEmisor, $scope.idArtista);
+        actualizarMensajes($scope.idUsuarioEmisor, $scope.idReceptor);
         }  
         });
   }
@@ -1726,6 +1836,33 @@ $scope.evaluacion={};
 
               
                 console.log('Tapped!', res);
+
+                if(res){
+
+                      $ionicLoading.show();
+
+                      api.confirmarEvento(noti.idAccion).then(function(response){
+
+                      $ionicLoading.hide();
+
+                      if(response.error==true){
+
+                      mensajeAlerta('Ha ocurrido un error');
+
+                      }
+                      else{
+
+                      mensajeAlerta('Has confirmado correctamente el evento');
+                      //$state.reload();
+
+                      }  
+                      });
+
+
+                }
+
+
+
               }, function(err) {
                 console.log('Err:', err);
               }, function(msg) {
@@ -2400,6 +2537,9 @@ $ionicLoading.show();
 
        console.log(data);
        $scope.anuncios = data.eventos;
+
+ $scope.valorAnuncio = data.valorAnuncio;
+
         $ionicLoading.hide();
       }
       else{
@@ -2426,6 +2566,8 @@ getAnunucios();
       }
 
  else{
+
+
        $ionicLoading.show();
         navigator.geolocation.getCurrentPosition(function(pos) {
          console.log(pos.coords.latitude+' Long: '+ pos.coords.longitude);
@@ -2456,7 +2598,14 @@ getAnunucios();
                     }
                     else{
                     $ionicLoading.hide();
-                     mensajeAlerta('Ha ocurrido un error');
+
+                    if(data.saldo==false){
+                      mensajeAlerta('No tienes suficientes puntos para esta compra');
+
+                    }
+                    else{mensajeAlerta('Ha ocurrido un error');}
+
+                     
                     //$state.go('app.inicio');
                     }
                 });
@@ -3618,26 +3767,11 @@ $scope.edit={};
 }
 
 
-
-$scope.cambiarFoto = function(fotoNum){
-
+$scope.cambiarFoto = function(){
 getImage();
-
-function getFotoOrden(){
-
-  var ret = '';
-  if(fotoNum == 1){ ret = 'artista1_'}
-  if(fotoNum == 2){ ret = 'artista2_'}
-  if(fotoNum == 3){ ret = 'artista3_'}
-
-
-  return ret;
-}
-
-
 function getImage() {
  navigator.camera.getPicture(uploadPhoto, function(message) {
- alert('get picture failed');
+ console.log('getPic cancelled');
  }, {
  quality: 100,
  destinationType: navigator.camera.DestinationType.FILE_URI,
@@ -3645,13 +3779,11 @@ function getImage() {
  });
 }
 
-//artista1_{{idArtista}}.jpg
-
 function uploadPhoto(imageURI) {
   $ionicLoading.show();
  var options = new FileUploadOptions();
  options.fileKey = "file";
- options.fileName = 'test.jpg';
+ options.fileName = 'userP'+$scope.usuarioInfo.idUsuario;
  options.mimeType = "image/jpeg";
  console.log(options.fileName);
  var params = new Object();
@@ -3661,16 +3793,21 @@ function uploadPhoto(imageURI) {
  options.chunkedMode = false;
 
 var ft = new FileTransfer();
- ft.upload(imageURI, serverConfig.url+"/upload.php", function(result){
+ ft.upload(imageURI, serverConfig.imageStorageURL+"/upload.php", function(result){
  console.log(JSON.stringify(result));
   $ionicLoading.hide();
-  mensajeAlerta('Foto cambiada correctamente');
   $state.reload();
+  console.log('Foto cambiada correctamente');
+
+  $scope.$apply(function () {
+     $scope.valorF =4;
+});
+
 
  }, function(error){
  console.log(JSON.stringify(error));
  $ionicLoading.hide();
-  mensajeAlerta('error al subir foto');
+ console.log('error al subir foto');
  }, options);
  }
  
