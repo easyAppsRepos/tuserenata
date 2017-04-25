@@ -1940,12 +1940,13 @@ $scope.showPopup();
                     api.agregarComentario(noti.idAccion, idUser, $scope.evaluacion.estrellas, $scope.evaluacion.comentario, noti.idNotificacion ).then(function(response){
 
                            if(!response.error){
-
+                            $ionicLoading.hide();
                           mensajeAlerta('Tu calificacion ha sido agregada, gracias por utilizar nuestro servicio');
 
                         
                           }
                           else{
+                             $ionicLoading.hide();
                           mensajeAlerta('Ha ocurrido un error. Verifique su conexion a internet');
                           }
 
