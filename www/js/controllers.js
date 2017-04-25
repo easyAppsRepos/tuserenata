@@ -716,6 +716,18 @@ $state.go('app.profile', { idArtista:idArtista });
       });
 
 
+
+  $scope.getUR = function(id){
+
+    console.log(id);
+    //$scope.infoModal=data;
+ return $scope.urlImagenes+'artista1_'+id+'.jpg';
+
+  }
+
+
+
+
      $scope.$on('artistaElegido', function(event, args) {
 
         console.log('en artistaElegido');
