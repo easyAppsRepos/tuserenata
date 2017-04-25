@@ -412,7 +412,7 @@ $ionicLoading.show();
 
 })
 
-.controller('interesadosCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk, $ionicSideMenuDelegate) {
+.controller('interesadosCtrl', function($scope, $timeout, serverConfig, $stateParams, ionicMaterialInk, $ionicSideMenuDelegate) {
 
 
   $scope.$parent.showHeader();
@@ -420,7 +420,7 @@ $ionicLoading.show();
     $scope.isExpanded = false;
     $scope.$parent.setExpanded(false);
     $scope.$parent.setHeaderFab(false);
-
+$scope.urlImagenes = serverConfig.imageStorageURL;
     // Set Motion
 
 
@@ -592,7 +592,7 @@ $ionicLoading.show();
     ionicMaterialInk.displayEffect();
 })
 
-.controller('generoCtrl', function($scope, $timeout, $state, $stateParams, api, $ionicPopup, $ionicLoading, ionicMaterialInk, $ionicSideMenuDelegate) {
+.controller('generoCtrl', function($scope, serverConfig,  $timeout, $state, $stateParams, api, $ionicPopup, $ionicLoading, ionicMaterialInk, $ionicSideMenuDelegate) {
 
 
   $scope.$parent.showHeader();
@@ -600,7 +600,7 @@ $ionicLoading.show();
     $scope.isExpanded = false;
     $scope.$parent.setExpanded(false);
     $scope.$parent.setHeaderFab(false);
-
+$scope.urlImagenes = serverConfig.imageStorageURL;
     // Set Motion
 
 
@@ -678,7 +678,7 @@ $state.go('app.profile', { idArtista:idArtista });
 
 
 
-.controller('inicioCtrl', function($scope, $ionicLoading, $ionicPopup, $rootScope, api, $stateParams, $state, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
+.controller('inicioCtrl', function($scope,  serverConfig, $ionicLoading, $ionicPopup, $rootScope, api, $stateParams, $state, $ionicScrollDelegate, $timeout, $ionicModal, $ionicSlideBoxDelegate, ionicMaterialInk, ionicMaterialMotion, ionicTimePicker, ionicDatePicker) {
 
   $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -700,6 +700,7 @@ $state.go('app.profile', { idArtista:idArtista });
     }, 700);
 
     // Set Ink
+    $scope.urlImagenes = serverConfig.imageStorageURL;
     ionicMaterialInk.displayEffect();
 
    // $scope.$on('$ionicView.enter', function() {
@@ -3707,6 +3708,11 @@ getEventosAgendados();
 })
 .controller('ProfileArtistaCtrl', function($scope, $state, $ionicNavBarDelegate, $stateParams, $sce, $ionicModal, $timeout, $ionicPopup, $ionicLoading, api, serverConfig, ionicMaterialMotion, $ionicSideMenuDelegate, ionicMaterialInk) {
 
+
+        var userData = JSON.parse(window.localStorage.getItem('userInfoTS'));
+        $scope.idUs =  userData.idUsuario;
+
+
      $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
     $scope.isExpanded = false;
@@ -3767,7 +3773,7 @@ $scope.edit={};
 }
 
 
-$scope.cambiarFoto = function(){
+$scope.cambiarFoto = function(num){
 getImage();
 function getImage() {
  navigator.camera.getPicture(uploadPhoto, function(message) {
@@ -3784,7 +3790,7 @@ function uploadPhoto(imageURI) {
  var options = new FileUploadOptions();
  options.fileKey = "file";
  //options.fileName = 'userP'+$scope.usuarioInfo.idUsuario;
- options.fileName = 'userP';
+ options.fileName = 'artista'+num+'_'+$scope.idUs;
  options.mimeType = "image/jpeg";
  console.log(options.fileName);
  var params = new Object();
