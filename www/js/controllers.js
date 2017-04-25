@@ -3793,7 +3793,7 @@ function uploadPhoto(imageURI) {
  options.chunkedMode = false;
 
 var ft = new FileTransfer();
- ft.upload(imageURI, serverConfig.imageStorageURL+"/upload.php", function(result){
+ ft.upload(imageURI, serverConfig.imageStorageURL+"upload.php", function(result){
  console.log(JSON.stringify(result));
   $ionicLoading.hide();
   $state.reload();
