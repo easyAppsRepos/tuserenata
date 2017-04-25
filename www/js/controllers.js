@@ -2302,7 +2302,16 @@ console.log(data);
     
       }
       else{
-      mensajeAlerta('No ha sido posible postularse');
+
+        if(!data.saldo){
+
+            mensajeAlerta('Debes tener saldo en tu cuenta para poder postularte');
+        }
+        else{
+
+            mensajeAlerta('No ha sido posible postularse');
+        }  
+    
       }
       });
 
@@ -2966,6 +2975,7 @@ $scope.tipoReservas = 'semana';
 
 $scope.confirmarEvento = function(idEvento){
     $ionicLoading.show();
+
 
     api.confirmarEvento(idEvento).then(function(response){
 
