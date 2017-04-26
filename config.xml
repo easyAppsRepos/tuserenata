@@ -57,6 +57,17 @@
  <allow-navigation href="*" />
 
 
+
+<icon src="icon.png" />
+<icon src="res/icon/android/36x36.png" platform="android" qualifier="ldpi" />
+<icon src="res/icon/android/48x48.png" platform="android" qualifier="mdpi" />
+<icon src="res/icon/android/72x72.png" platform="android" qualifier="hdpi" />
+<icon src="res/icon/android/96x96.png" platform="android" qualifier="xhdpi" />
+<icon src="res/icon/android/144x144.png" platform="android" qualifier="xxhdpi" />
+<icon src="res/icon/android/192x192.png" platform="android" qualifier="fr-xxhdpi"/>
+
+
+
     <!--
       version 20
     <icon gap:platform="ios" height="40" src="res/icon/ios/icon-40.jpg" width="40" />
