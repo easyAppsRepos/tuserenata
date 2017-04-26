@@ -342,3 +342,20 @@ p {
         bottom: -7px;
         left: 50%;
       }
+
+
+
+
+.ionic_timepicker_popup .time_picker_arrows {
+    width: 100%;
+    color: white !important;
+    padding-left: 18px !important;
+}
+
+
+
+.ionic_timepicker_popup .time_picker_box_text {
+
+    color: white !important;
+}
+

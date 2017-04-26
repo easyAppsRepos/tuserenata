@@ -1941,7 +1941,8 @@ $scope.showPopup();
 
                            if(!response.error){
                             $ionicLoading.hide();
-                          mensajeAlerta('Tu calificacion ha sido agregada, gracias por utilizar nuestro servicio');
+
+                          mensajeAlerta('Tu calificacion ha sido agregada. Felicidades! Has ganado '+response.puntosGanados+' puntos, gracias por utilizar nuestro servicio');
 
                         
                           }
